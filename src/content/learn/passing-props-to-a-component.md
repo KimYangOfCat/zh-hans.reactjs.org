@@ -54,7 +54,7 @@ body { min-height: 120px; }
 
 </Sandpack>
 
-你可以传递给 `<img>` 标签的 props 是预定义的（ReactDOM 符合 [HTML 标准](https://www.w3.org/TR/html52/semantics-embedded-content.html#the-img-element)）。但是你可以将任何 props 传递给 *你自己的* 组件，例如 `<Avatar>` ，以便自定义它们。 就像这样！
+你可以传递给 `<img>` 标签的 props 是预定义的（ReactDOM 符合 [HTML 标准](https://www.w3.org/TR/html52/semantics-embedded-content.html#the-img-element)）。但是你可以将任何 props 传递给 **你自己的** 组件，例如 `<Avatar>` ，以便自定义它们。 就像这样！
 
 ## 向组件传递 props {/*passing-props-to-a-component*/}
 
@@ -109,7 +109,7 @@ function Avatar({ person, size }) {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js';
 
 function Avatar({ person, size }) {
@@ -153,7 +153,7 @@ export default function Profile() {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -173,7 +173,7 @@ body { min-height: 120px; }
 
 Props 使你独立思考父组件和子组件。 例如，你可以改变 `Profile` 中的 `person` 或 `size` props，而无需考虑 `Avatar` 如何使用它们。 同样，你可以改变 `Avatar` 使用这些 props 的方式，不必考虑 `Profile`。
 
-你可以将 props 想象成可以调整的“旋钮”。它们的作用与函数的参数相同 —— 事实上，props _正是_ 组件的唯一参数！ React 组件函数接受一个参数，一个 `props` 对象：
+你可以将 props 想象成可以调整的“旋钮”。它们的作用与函数的参数相同 —— 事实上，props **正是** 组件的唯一参数！ React 组件函数接受一个参数，一个 `props` 对象：
 
 ```js
 function Avatar(props) {
@@ -240,7 +240,7 @@ function Profile({ person, size, isSepia, thickBorder }) {
 }
 ```
 
-重复代码没有错（它可以更清晰）。但有时你可能会重视简洁。一些组件将它们所有的 props 转发给子组件，正如 `Profile` 转给 `Avatar` 那样。因为它们不直接使用它们任何 props，所以使用更简洁的“展开”语法是有意义的：
+重复代码没有错（它可以更清晰）。但有时你可能会重视简洁。一些组件将它们所有的 props 转发给子组件，正如 `Profile` 转给 `Avatar` 那样。因为这些组件不直接使用他们本身的任何 props，所以使用更简洁的“展开”语法是有意义的：
 
 ```js
 function Profile(props) {
@@ -274,11 +274,11 @@ function Profile(props) {
 </Card>
 ```
 
-当您将内容嵌套在 JSX 标签中时，父组件将在名为 `children` 的 prop 中接收到该内容。例如，下面的 `Card` 组件将接收一个被设为 `<Avatar />` 的 `children` prop 并将其包裹在 div 中渲染：
+当你将内容嵌套在 JSX 标签中时，父组件将在名为 `children` 的 prop 中接收到该内容。例如，下面的 `Card` 组件将接收一个被设为 `<Avatar />` 的 `children` prop 并将其包裹在 div 中渲染：
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import Avatar from './Avatar.js';
 
 function Card({ children }) {
@@ -304,7 +304,7 @@ export default function Profile() {
 }
 ```
 
-```js Avatar.js
+```js src/Avatar.js
 import { getImageUrl } from './utils.js';
 
 export default function Avatar({ person, size }) {
@@ -320,7 +320,7 @@ export default function Avatar({ person, size }) {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -364,7 +364,7 @@ export function getImageUrl(person, size = 's') {
 
 <Sandpack>
 
-```js Clock.js active
+```js src/Clock.js active
 export default function Clock({ color, time }) {
   return (
     <h1 style={{ color: color }}>
@@ -374,7 +374,7 @@ export default function Clock({ color, time }) {
 }
 ```
 
-```js App.js hidden
+```js src/App.js hidden
 import { useState, useEffect } from 'react';
 import Clock from './Clock.js';
 
@@ -412,7 +412,7 @@ export default function App() {
 
 这个例子说明，**一个组件可能会随着时间的推移收到不同的 props。** Props 并不总是静态的！在这里，`time` prop 每秒都在变化。当你选择另一种颜色时，`color` prop 也改变了。Props 反映了组件在任何时间点的数据，并不仅仅是在开始时。
 
-然而，props 是 [不可变的](https://en.wikipedia.org/wiki/Immutable_object)（一个计算机科学术语，意思是“不可改变”）。当一个组件需要改变它的 props（例如，响应用户交互或新数据）时，它不得不“请求”它的父组件传递 _不同的 props_ —— 一个新对象！它的旧 props 将被丢弃，最终 JavaScript 引擎将回收它们占用的内存。
+然而，props 是 [不可变的](https://en.wikipedia.org/wiki/Immutable_object)（一个计算机科学术语，意思是“不可改变”）。当一个组件需要改变它的 props（例如，响应用户交互或新数据）时，它不得不“请求”它的父组件传递 **不同的 props** —— 一个新对象！它的旧 props 将被丢弃，最终 JavaScript 引擎将回收它们占用的内存。
 
 **不要尝试“更改 props”。** 当你需要响应用户输入（例如更改所选颜色）时，你可以“设置 state”，你可以在 [State: 一个组件的内存](/learn/state-a-components-memory) 中继续了解。
 
@@ -434,11 +434,11 @@ export default function App() {
 
 #### 提取一个组件 {/*extract-a-component*/}
 
-这个 `Gallery` 组件包含两份个人资料，其中有一些非常相似的标记。从中提取一个 `Profile` 组件以减少重复。你需要选择要传递哪些 props。
+这个 `Gallery` 组件包含两份个人资料，其中有一些非常相似的标签。从中提取一个 `Profile` 组件以减少重复。你需要选择要传递哪些 props。
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js';
 
 export default function Gallery() {
@@ -465,7 +465,7 @@ export default function Gallery() {
           </li>
           <li>
             <b>Discovered: </b>
-            polonium (element)
+            polonium (chemical element)
           </li>
         </ul>
       </section>
@@ -498,7 +498,7 @@ export default function Gallery() {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(imageId, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -527,7 +527,7 @@ li { margin: 5px; }
 
 <Hint>
 
-首先提取其中一位科学家的标记。然后在第二个例子中找到不匹配的部分，用 props 配置它们。
+首先提取其中一位科学家的标签。然后在第二个例子中找到不匹配的部分，用 props 配置它们。
 
 </Hint>
 
@@ -539,7 +539,7 @@ li { margin: 5px; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js';
 
 function Profile({
@@ -606,7 +606,7 @@ export default function Gallery() {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(imageId, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -639,7 +639,7 @@ li { margin: 5px; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js';
 
 function Profile({ person, imageSize = 70 }) {
@@ -703,7 +703,7 @@ export default function Gallery() {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -742,7 +742,7 @@ li { margin: 5px; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js';
 
 function Avatar({ person, size }) {
@@ -770,7 +770,7 @@ export default function Profile() {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person, size) {
   return (
     'https://i.imgur.com/' +
@@ -793,7 +793,7 @@ export function getImageUrl(person, size) {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js';
 
 function Avatar({ person, size }) {
@@ -834,7 +834,7 @@ export default function Profile() {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person, size) {
   return (
     'https://i.imgur.com/' +
@@ -851,11 +851,11 @@ export function getImageUrl(person, size) {
 
 </Sandpack>
 
-你还可以通过考虑 [`window.devicePixelRatio`](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio) 来为高 DPI 屏幕显示更清晰的图像：
+你还可以通过考虑 [`window.devicePixelRatio`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/devicePixelRatio) 来为高 DPI 屏幕显示更清晰的图像：
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js';
 
 const ratio = window.devicePixelRatio;
@@ -905,7 +905,7 @@ export default function Profile() {
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person, size) {
   return (
     'https://i.imgur.com/' +

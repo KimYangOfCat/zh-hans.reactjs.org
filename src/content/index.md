@@ -1,6 +1,6 @@
 ---
 id: home
-title: React – The library for web and native user interfaces
+title: React 官方中文文档
 permalink: index.html
 ---
 

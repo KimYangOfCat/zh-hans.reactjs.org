@@ -27,8 +27,8 @@ translators:
 
 <Sandpack>
 
-```js App.js
-import {useState} from 'react';
+```js src/App.js
+import { useState } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
 
@@ -83,8 +83,8 @@ const initialTasks = [
 ];
 ```
 
-```js AddTask.js hidden
-import {useState} from 'react';
+```js src/AddTask.js hidden
+import { useState } from 'react';
 
 export default function AddTask({onAddTask}) {
   const [text, setText] = useState('');
@@ -107,8 +107,8 @@ export default function AddTask({onAddTask}) {
 }
 ```
 
-```js TaskList.js hidden
-import {useState} from 'react';
+```js src/TaskList.js hidden
+import { useState } from 'react';
 
 export default function TaskList({tasks, onChangeTask, onDeleteTask}) {
   return (
@@ -230,7 +230,7 @@ function handleDeleteTask(taskId) {
 - `handleChangeTask(task)` 在用户切换任务或点击 “保存” 时被调用。
 - `handleDeleteTask(taskId)` 在用户点击 “删除” 时被调用。
 
-使用 reducers 管理状态与直接设置状态略有不同。它不是通过设置状态来告诉 React “要做什么”，而是通过事件处理程序 dispatch 一个 “action” 来指明 “用户刚刚做了什么”。（而状态更新逻辑则保存在其他地方！）因此，我们不再通过事件处理器直接 “设置 `task`”，而是 dispatch 一个 “添加/修改/删除任务” 的 action。这更加符合用户的思维。
+使用 reducer 管理状态与直接设置状态略有不同。它不是通过设置状态来告诉 React “要做什么”，而是通过事件处理程序 dispatch 一个 “action” 来指明 “用户刚刚做了什么”。（而状态更新逻辑则保存在其他地方！）因此，我们不再通过事件处理器直接 “设置 `task`”，而是 dispatch 一个 “添加/修改/删除任务” 的 action。这更加符合用户的思维。
 
 ```js
 function handleAddTask(text) {
@@ -270,7 +270,7 @@ function handleDeleteTask(taskId) {
 }
 ```
 
-它是一个普通的 JavaScript 对象。它的结构是由你决定的，但通常来说，它应该至少包含可以表明 *发生了什么事情* 的信息。（在后面的步骤中，你将会学习如何添加一个 `dispatch` 函数。）
+它是一个普通的 JavaScript 对象。它的结构是由你决定的，但通常来说，它应该至少包含可以表明 **发生了什么事情** 的信息。（在后面的步骤中，你将会学习如何添加一个 `dispatch` 函数。）
 
 <Note>
 
@@ -335,11 +335,11 @@ function tasksReducer(tasks, action) {
 }
 ```
 
-> 由于 `reducer` 函数接受 `state`（tasks）作为参数，因此你可以 **在组件之外声明它**。**这减少了代码的缩进级别，提升了代码的可读性。
+由于 `reducer` 函数接受 state（`tasks`）作为参数，因此你可以 **在组件之外声明它**。这减少了代码的缩进级别，提升了代码的可读性。
 
 <Note>
 
-上面的代码使用了 `if/else` 语句，但是在 reducers 中使用 [switch 语句](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/switch) 是一种惯例。两种方式结果是相同的，但 `switch` 语句读起来一目了然。
+上面的代码使用了 `if/else` 语句，但是在 reducer 中使用 [switch 语句](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/switch) 是一种惯例。两种方式结果是相同的，但 `switch` 语句读起来一目了然。
 
 在本文档的后续部分我们会像这样使用：
 
@@ -385,7 +385,7 @@ function tasksReducer(tasks, action) {
 
 #### 为什么称之为 reducer? {/*why-are-reducers-called-this-way*/}
 
-尽管 `reducer` 可以 “减少” 组件内的代码量，但它实际上是以数组上的 [`reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) 方法命名的。
+尽管 `reducer` 可以 “减少” 组件内的代码量，但它实际上是以数组上的 [`reduce()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce) 方法命名的。
 
 `reduce()` 允许你将数组中的多个值 “累加” 成一个值：
 
@@ -402,7 +402,7 @@ const sum = arr.reduce(
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 import tasksReducer from './tasksReducer.js';
 
 let initialState = [];
@@ -419,7 +419,7 @@ const output = document.getElementById('output');
 output.textContent = JSON.stringify(finalState, null, 2);
 ```
 
-```js tasksReducer.js
+```js src/tasksReducer.js
 export default function tasksReducer(tasks, action) {
   switch (action.type) {
     case 'added': {
@@ -466,7 +466,7 @@ export default function tasksReducer(tasks, action) {
 最后，你需要将 `tasksReducer` 导入到组件中。记得先从 React 中导入 `useReducer` Hook：
 
 ```js
-import {useReducer} from 'react';
+import { useReducer } from 'react';
 ```
 
 接下来，你就可以替换掉之前的 `useState`:
@@ -497,8 +497,8 @@ const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
 
@@ -578,8 +578,8 @@ const initialTasks = [
 ];
 ```
 
-```js AddTask.js hidden
-import {useState} from 'react';
+```js src/AddTask.js hidden
+import { useState } from 'react';
 
 export default function AddTask({onAddTask}) {
   const [text, setText] = useState('');
@@ -602,8 +602,8 @@ export default function AddTask({onAddTask}) {
 }
 ```
 
-```js TaskList.js hidden
-import {useState} from 'react';
+```js src/TaskList.js hidden
+import { useState } from 'react';
 
 export default function TaskList({tasks, onChangeTask, onDeleteTask}) {
   return (
@@ -682,8 +682,8 @@ li {
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
 import tasksReducer from './tasksReducer.js';
@@ -734,7 +734,7 @@ const initialTasks = [
 ];
 ```
 
-```js tasksReducer.js
+```js src/tasksReducer.js
 export default function tasksReducer(tasks, action) {
   switch (action.type) {
     case 'added': {
@@ -766,8 +766,8 @@ export default function tasksReducer(tasks, action) {
 }
 ```
 
-```js AddTask.js hidden
-import {useState} from 'react';
+```js src/AddTask.js hidden
+import { useState } from 'react';
 
 export default function AddTask({onAddTask}) {
   const [text, setText] = useState('');
@@ -790,8 +790,8 @@ export default function AddTask({onAddTask}) {
 }
 ```
 
-```js TaskList.js hidden
-import {useState} from 'react';
+```js src/TaskList.js hidden
+import { useState } from 'react';
 
 export default function TaskList({tasks, onChangeTask, onDeleteTask}) {
   return (
@@ -866,11 +866,11 @@ li {
 
 </Sandpack>
 
-当像这样分离关注点时，我们可以更容易地理解组件逻辑。现在，事件处理程序只通过派发 `action` 来指定 *发生了什么*，而 `reducer` 函数通过响应 `actions` 来决定 *状态如何更新*。
+当像这样分离关注点时，我们可以更容易地理解组件逻辑。现在，事件处理程序只通过派发 `action` 来指定 **发生了什么**，而 `reducer` 函数通过响应 `actions` 来决定 **状态如何更新**。
 
 ## 对比 `useState` 和 `useReducer` {/*comparing-usestate-and-usereducer*/}
 
-Reducers 并非没有缺点！以下是比较它们的几种方法：
+Reducer 并非没有缺点！以下是比较它们的几种方法：
 
 * **代码体积：** 通常，在使用 `useState` 时，一开始只需要编写少量代码。而 `useReducer` 必须提前编写 reducer 函数和需要调度的 actions。但是，当多个事件处理程序以相似的方式修改 state 时，`useReducer` 可以减少代码量。
 * **可读性：** 当状态更新逻辑足够简单时，`useState` 的可读性还行。但是，一旦逻辑变得复杂起来，它们会使组件变得臃肿且难以阅读。在这种情况下，`useReducer` 允许你将状态更新逻辑与事件处理程序分离开来。
@@ -880,21 +880,21 @@ Reducers 并非没有缺点！以下是比较它们的几种方法：
 
 如果你在修改某些组件状态时经常出现问题或者想给组件添加更多逻辑时，我们建议你还是使用 reducer。当然，你也不必整个项目都用 reducer，这是可以自由搭配的。你甚至可以在一个组件中同时使用 `useState` 和 `useReducer`。
 
-## 编写一个好的 reducers {/*writing-reducers-well*/}
+## 编写一个好的 reducer {/*writing-reducers-well*/}
 
-编写 `reducers` 时最好牢记以下两点：
+编写 `reducer` 时最好牢记以下两点：
 
-* **reducers 必须是纯粹的。** 这一点和 [状态更新函数](/learn/queueing-a-series-of-state-updates) 是相似的，`reducers` 在是在渲染时运行的！（actions 会排队直到下一次渲染)。 这就意味着 `reducers` [必须纯净](/learn/keeping-components-pure)，即当输入相同时，输出也是相同的。它们不应该包含异步请求、定时器或者任何副作用（对组件外部有影响的操作）。它们应该以不可变值的方式去更新 [对象](/learn/updating-objects-in-state) 和 [数组](/learn/updating-arrays-in-state)。
+* **reducer 必须是纯粹的。** 这一点和 [状态更新函数](/learn/queueing-a-series-of-state-updates) 是相似的，`reducer` 是在渲染时运行的！（actions 会排队直到下一次渲染)。 这就意味着 `reducer` [必须纯净](/learn/keeping-components-pure)，即当输入相同时，输出也是相同的。它们不应该包含异步请求、定时器或者任何副作用（对组件外部有影响的操作）。它们应该以不可变值的方式去更新 [对象](/learn/updating-objects-in-state) 和 [数组](/learn/updating-arrays-in-state)。
 * **每个 action 都描述了一个单一的用户交互，即使它会引发数据的多个变化。** 举个例子，如果用户在一个由 `reducer` 管理的表单（包含五个表单项）中点击了 `重置按钮`，那么 dispatch 一个 `reset_form` 的 action 比 dispatch 五个单独的 `set_field` 的 action 更加合理。如果你在一个 `reducer` 中打印了所有的 `action` 日志，那么这个日志应该是很清晰的，它能让你以某种步骤复现已发生的交互或响应。这对代码调试很有帮助！
 
-## 使用 Immer 简化 reducers {/*writing-concise-reducers-with-immer*/}
+## 使用 Immer 简化 reducer {/*writing-concise-reducers-with-immer*/}
 
 与在平常的 state 中 [修改对象](/learn/updating-objects-in-state#write-concise-update-logic-with-immer) 和 [数组](/learn/updating-arrays-in-state#write-concise-update-logic-with-immer) 一样，你可以使用 `Immer` 这个库来简化 `reducer`。在这里，[`useImmerReducer`](https://github.com/immerjs/use-immer#useimmerreducer) 让你可以通过 `push` 或 `arr[i] =` 来修改 state ：
 
 <Sandpack>
 
-```js App.js
-import {useImmerReducer} from 'use-immer';
+```js src/App.js
+import { useImmerReducer } from 'use-immer';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
 
@@ -968,8 +968,8 @@ const initialTasks = [
 ];
 ```
 
-```js AddTask.js hidden
-import {useState} from 'react';
+```js src/AddTask.js hidden
+import { useState } from 'react';
 
 export default function AddTask({onAddTask}) {
   const [text, setText] = useState('');
@@ -992,8 +992,8 @@ export default function AddTask({onAddTask}) {
 }
 ```
 
-```js TaskList.js hidden
-import {useState} from 'react';
+```js src/TaskList.js hidden
+import { useState } from 'react';
 
 export default function TaskList({tasks, onChangeTask, onDeleteTask}) {
   return (
@@ -1086,7 +1086,7 @@ li {
 
 </Sandpack>
 
-Reducers 应该是纯净的，所以它们不应该去修改 state。而 Immer 为你提供了一种特殊的 `draft` 对象，你可以通过它安全的修改 state。在底层，Immer 会基于当前 state 创建一个副本。这就是为什么通过 `useImmerReducer` 来管理 reducers 时，可以修改第一个参数，且不需要返回一个新的 state 的原因。
+Reducer 应该是纯净的，所以它们不应该去修改 state。而 Immer 为你提供了一种特殊的 `draft` 对象，你可以通过它安全地修改 state。在底层，Immer 会基于当前 state 创建一个副本。这就是通过 `useImmerReducer` 来管理 reducer 时，可以修改第一个参数，且不需要返回一个新的 state 的原因。
 
 <Recap>
 
@@ -1094,8 +1094,8 @@ Reducers 应该是纯净的，所以它们不应该去修改 state。而 Immer �
   1. 通过事件处理函数 dispatch actions；
   2. 编写一个 reducer 函数，它接受传入的 state 和一个 action，并返回一个新的 state；
   3. 使用 `useReducer` 替换 `useState`；
-* Reducers 可能需要你写更多的代码，但是这有利于代码的调试和测试。
-* Reducers 必须是纯净的。
+* Reducer 可能需要你写更多的代码，但是这有利于代码的调试和测试。
+* Reducer 必须是纯净的。
 * 每个 action 都描述了一个单一的用户交互。
 * 使用 Immer 来帮助你在 reducer 里直接修改状态。
 
@@ -1105,9 +1105,9 @@ Reducers 应该是纯净的，所以它们不应该去修改 state。而 Immer �
 
 #### 通过事件处理函数 dispatch actions {/*dispatch-actions-from-event-handlers*/}
 
-目前，`ContactList.js` 和 `Chat.js` 中的事件处理程序包含 `// TODO` 注释。这就是为什么输入不起作用，点击按钮也不会改变收件人的原因。
+目前，`ContactList.js` 和 `Chat.js` 中的事件处理程序包含 `// TODO` 注释。这就是输入不起作用，点击按钮也不会改变收件人的原因。
 
-将这两个 `// TODO` 替换为 `dispatch` 相应的 action。如果要查看 action 的结构和类型，请查看 `messerreducer.js` 中的 reducer。reducer 已经写好了，你不需要再修改它。你只需要在 `ContactList.js` 和 `Chat.js` 中 dispatch 相应的 action 即可。
+将这两个 `// TODO` 替换为 `dispatch` 相应的 action。如果要查看 action 的结构和类型，请查看 `messengerReducer.js` 中的 reducer。reducer 已经写好了，你不需要再修改它。你只需要在 `ContactList.js` 和 `Chat.js` 中 dispatch 相应的 action 即可。
 
 <Hint>
 
@@ -1130,11 +1130,11 @@ case 'changed_selection': {
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -1164,7 +1164,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   message: '你好',
@@ -1192,7 +1192,7 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -1201,7 +1201,7 @@ export default function ContactList({contacts, selectedId, dispatch}) {
           <li key={contact.id}>
             <button
               onClick={() => {
-                // TODO: dispatch changed_selection
+                // TODO: 派发 changed_selection
               }}>
               {selectedId === contact.id ? <b>{contact.name}</b> : contact.name}
             </button>
@@ -1213,8 +1213,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js
-import {useState} from 'react';
+```js src/Chat.js
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -1280,11 +1280,11 @@ dispatch({
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -1314,7 +1314,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   message: '你好',
@@ -1342,7 +1342,7 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -1366,8 +1366,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js
-import {useState} from 'react';
+```js src/Chat.js
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -1424,11 +1424,11 @@ textarea {
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -1458,7 +1458,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   message: '你好',
@@ -1486,7 +1486,7 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -1510,8 +1510,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js active
-import {useState} from 'react';
+```js src/Chat.js active
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -1563,11 +1563,11 @@ textarea {
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -1597,7 +1597,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   message: '你好',
@@ -1625,7 +1625,7 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -1649,8 +1649,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js active
-import {useState} from 'react';
+```js src/Chat.js active
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -1711,11 +1711,11 @@ textarea {
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -1745,7 +1745,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js active
+```js src/messengerReducer.js active
 export const initialState = {
   selectedId: 0,
   message: '你好',
@@ -1779,7 +1779,7 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -1803,8 +1803,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js active
-import {useState} from 'react';
+```js src/Chat.js active
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -1860,7 +1860,7 @@ textarea {
 
 结果虽然是一样的。但请记住，action 的类型应该准确描述 “用户做了什么”，而不是 “你希望状态如何改变”。这使得以后添加更多特性变的容易。
 
-不管是哪一种解决方案，最重要的是你 **不要** 把 `alert` 放置在 reducer 中。reducer 必须是一个纯函数——它应该只计算下一个状态。而不应该 “做” 其它事情，包括向用户显示消息。这应该在事件处理程序中处理。（为了便于捕获这样的错误，React 会在严格模式下多次调用你的 reducer。这就是为什么当你在 reducer 中加入一个 alert，它会触发两次的原因。）
+不管是哪一种解决方案，最重要的是你 **不要** 把 `alert` 放置在 reducer 中。reducer 必须是一个纯函数——它应该只计算下一个状态。而不应该 “做” 其它事情，包括向用户显示消息。这应该在事件处理程序中处理。（为了便于捕获这样的错误，React 会在严格模式下多次调用你的 reducer。这就是当你在 reducer 中加入一个 alert，它会触发两次的原因。）
 
 </Solution>
 
@@ -1879,7 +1879,7 @@ case 'changed_selection': {
 
 这是因为你不希望在多个收件人之间共享单个邮件草稿。但如果你的应用程序能单独 “记住” 每个联系人的草稿，并在你切换联系人时恢复，那就更好了。
 
-你的任务是改变状态的组织形式，以便能记住 *每个联系人* 的消息草稿。你需要对 reducer、初始状态和组件进行一些修改。
+你的任务是改变状态的组织形式，以便能记住 **每个联系人** 的消息草稿。你需要对 reducer、初始状态和组件进行一些修改。
 
 <Hint>
 
@@ -1895,7 +1895,7 @@ export const initialState = {
 };
 ```
 
-这种 `[key]: value` [计算属性](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Object_initializer#computed_property_names) 可以帮你更新 `messages` 对象：
+这种 `[key]: value` [计算属性](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Object_initializer#computed_property_names) 可以帮你更新 `messages` 对象：
 
 ```js
 {
@@ -1908,11 +1908,11 @@ export const initialState = {
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -1942,7 +1942,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   message: '你好',
@@ -1976,7 +1976,7 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -2000,8 +2000,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js
-import {useState} from 'react';
+```js src/Chat.js
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -2057,7 +2057,7 @@ textarea {
 
 <Solution>
 
-You'll need to update the reducer to store and update a separate message draft per contact:
+你将需要更新 reducer 来为每个联系人分别存储并更新一个消息草稿：
 
 ```js
 // 当输入框内容被修改时
@@ -2075,21 +2075,21 @@ case 'edited_message': {
 }
 ```
 
-You would also update the `Messenger` component to read the message for the currently selected contact:
+你还需要更新 `Messenger` 组件来从当前选中的联系人读取信息：
 
 ```js
 const message = state.messages[state.selectedId];
 ```
 
-Here is the complete solution:
+下面是完整答案:
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from 'react';
+```js src/App.js
+import { useReducer } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -2119,7 +2119,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   messages: {
@@ -2162,7 +2162,7 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -2186,8 +2186,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js
-import {useState} from 'react';
+```js src/Chat.js
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -2273,11 +2273,11 @@ export function useReducer(reducer, initialState) {
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from './MyReact.js';
+```js src/App.js
+import { useReducer } from './MyReact.js';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -2307,7 +2307,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   messages: {
@@ -2350,8 +2350,8 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js MyReact.js active
-import {useState} from 'react';
+```js src/MyReact.js active
+import { useState } from 'react';
 
 export function useReducer(reducer, initialState) {
   const [state, setState] = useState(initialState);
@@ -2362,7 +2362,7 @@ export function useReducer(reducer, initialState) {
 }
 ```
 
-```js ContactList.js hidden
+```js src/ContactList.js hidden
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -2386,8 +2386,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js hidden
-import {useState} from 'react';
+```js src/Chat.js hidden
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (
@@ -2447,11 +2447,11 @@ dispatch 一个 action 去调用一个具有当前 state 和 action 的 reducer�
 
 <Sandpack>
 
-```js App.js
-import {useReducer} from './MyReact.js';
+```js src/App.js
+import { useReducer } from './MyReact.js';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
-import {initialState, messengerReducer} from './messengerReducer';
+import { initialState, messengerReducer } from './messengerReducer';
 
 export default function Messenger() {
   const [state, dispatch] = useReducer(messengerReducer, initialState);
@@ -2481,7 +2481,7 @@ const contacts = [
 ];
 ```
 
-```js messengerReducer.js
+```js src/messengerReducer.js
 export const initialState = {
   selectedId: 0,
   messages: {
@@ -2524,8 +2524,8 @@ export function messengerReducer(state, action) {
 }
 ```
 
-```js MyReact.js active
-import {useState} from 'react';
+```js src/MyReact.js active
+import { useState } from 'react';
 
 export function useReducer(reducer, initialState) {
   const [state, setState] = useState(initialState);
@@ -2539,7 +2539,7 @@ export function useReducer(reducer, initialState) {
 }
 ```
 
-```js ContactList.js hidden
+```js src/ContactList.js hidden
 export default function ContactList({contacts, selectedId, dispatch}) {
   return (
     <section className="contact-list">
@@ -2563,8 +2563,8 @@ export default function ContactList({contacts, selectedId, dispatch}) {
 }
 ```
 
-```js Chat.js hidden
-import {useState} from 'react';
+```js src/Chat.js hidden
+import { useState } from 'react';
 
 export default function Chat({contact, message, dispatch}) {
   return (

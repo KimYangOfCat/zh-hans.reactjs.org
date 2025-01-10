@@ -7,7 +7,7 @@ translators:
 
 <Intro>
 
-当你希望组件“记住”某些信息，但又不想让这些信息 [触发新的渲染](/learn/render-and-commit) 时，你可以使用 *ref* 。
+当你希望组件“记住”某些信息，但又不想让这些信息 [触发新的渲染](/learn/render-and-commit) 时，你可以使用 **ref** 。
 
 </Intro>
 
@@ -44,7 +44,7 @@ const ref = useRef(0);
 
 <Illustration src="/images/docs/illustrations/i_ref.png" alt="An arrow with 'current' written on it stuffed into a pocket with 'ref' written on it." />
 
-你可以用 `ref.current` 属性访问该 ref 的当前值。这个值是有意被设置为可变的，意味着你既可以读取它也可以写入它。就像一个 React 追踪不到的、用来存储组件信息的秘密“口袋”。（这就是让它成为 React 单向数据流的“应急方案”的原因 —— 详见下文！）
+你可以用 `ref.current` 属性访问该 ref 的当前值。这个值是有意被设置为可变的，意味着你既可以读取它也可以写入它。就像一个 React 追踪不到的、用来存储组件信息的秘密“口袋”。（这就是让它成为 React 单向数据流的“脱围机制”的原因 —— 详见下文！）
 
 这里，每次点击按钮时会使 `ref.current` 递增：
 
@@ -124,7 +124,7 @@ export default function Stopwatch() {
 
 </Sandpack>
 
-当按下“停止”按钮时，你需要取消现有的 interval，以便让它停止更新 `now` state 变量。你可以通过调用 [`clearInterval`](https://developer.mozilla.org/en-US/docs/Web/API/clearInterval) 来完成此操作。但你需要为其提供 interval ID，此 ID 是之前用户按下 Start、调用 `setInterval` 时返回的。你需要将 interval ID 保留在某处。 **由于 interval ID 不用于渲染，你可以将其保存在 ref 中：**
+当按下“停止”按钮时，你需要取消现有的 interval，以便让它停止更新 `now` state 变量。你可以通过调用 [`clearInterval`](https://developer.mozilla.org/zh-CN/docs/Web/API/clearInterval) 来完成此操作。但你需要为其提供 interval ID，此 ID 是之前用户按下 Start、调用 `setInterval` 时返回的。你需要将 interval ID 保留在某处。 **由于 interval ID 不用于渲染，你可以将其保存在 ref 中：**
 
 <Sandpack>
 
@@ -175,7 +175,7 @@ export default function Stopwatch() {
 
 ## ref 和 state 的不同之处 {/*differences-between-refs-and-state*/}
 
-也许你觉得 ref 似乎没有 state 那样“严格” —— 例如，你可以改变它们而非总是必须使用 state 设置函数。但在大多数情况下，我们建议你使用 state。ref 是一个“应急方案”，你并不会经常用到它。 以下是 state 和 ref 的对比：
+也许你觉得 ref 似乎没有 state 那样“严格” —— 例如，你可以改变它们而非总是必须使用 state 设置函数。但在大多数情况下，我们建议你使用 state。ref 是一种“脱围机制”，你并不会经常用到它。 以下是 state 和 ref 的对比：
 
 | ref                                                                                  | state                                                                                                                     |
 | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -235,13 +235,13 @@ export default function Counter() {
 
 </Sandpack>
 
-这就是为什么在渲染期间读取 `ref.current` 会导致代码不可靠的原因。如果需要，请改用 state。 
+这就是在渲染期间读取 `ref.current` 会导致代码不可靠的原因。如果需要，请改用 state。 
 
 <DeepDive>
 
 #### useRef 内部是如何运行的？ {/*how-does-use-ref-work-inside*/}
 
-尽管 `useState` 和 `useRef` 都是由 React 提供的，原则上 `useRef` 可以在 `useState` _的基础上_ 实现。 你可以想象在 React 内部，`useRef` 是这样实现的：
+尽管 `useState` 和 `useRef` 都是由 React 提供的，原则上 `useRef` 可以在 `useState` **的基础上** 实现。 你可以想象在 React 内部，`useRef` 是这样实现的：
 
 ```js
 // React 内部
@@ -271,10 +271,10 @@ React 提供了一个内置版本的 `useRef`，因为它在实践中很常见�
 
 遵循这些原则将使你的组件更具可预测性：
 
-- **将 ref 视为应急方案。** 当你使用外部系统或浏览器 API 时，ref 很有用。如果你很大一部分应用程序逻辑和数据流都依赖于 ref，你可能需要重新考虑你的方法。
+- **将 ref 视为脱围机制**。当你使用外部系统或浏览器 API 时，ref 很有用。如果你很大一部分应用程序逻辑和数据流都依赖于 ref，你可能需要重新考虑你的方法。
 - **不要在渲染过程中读取或写入 `ref.current`。** 如果渲染过程中需要某些信息，请使用 [state](/learn/state-a-components-memory) 代替。由于 React 不知道 `ref.current` 何时发生变化，即使在渲染时读取它也会使组件的行为难以预测。（唯一的例外是像 `if (!ref.current) ref.current = new Thing()` 这样的代码，它只在第一次渲染期间设置一次 ref。）
 
-React state 的限制不适用于 ref。例如，state 就像 [每次渲染的快照](/learn/state-as-a-snapshot)，并且 [不会同步更新。](/learn/queueing-a-series-of-state-updates)但是当你改变 ref 的 current 值时，它会立即改变：
+React state 的限制不适用于 ref。例如，state 就像 [每次渲染的快照](/learn/state-as-a-snapshot)，并且 [不会同步更新](/learn/queueing-a-series-of-state-updates)。但是当你改变 ref 的 current 值时，它会立即改变：
 
 ```js
 ref.current = 5;
@@ -287,11 +287,11 @@ console.log(ref.current); // 5
 
 ## ref 和 DOM {/*refs-and-the-dom*/}
 
-你可以将 ref 指向任何值。但是，ref 最常见的用法是访问 DOM 元素。例如，如果你想以编程方式聚焦一个输入框，这种用法就会派上用场。当你将 ref 传递给 JSX 中的 `ref` 属性时，比如 `<div ref={myRef}>`，React 会将相应的 DOM 元素放入 `myRef.current` 中。你可以在 [使用 ref 操作 DOM](/learn/manipulating-the-dom-with-refs) 中阅读更多相关信息。
+你可以将 ref 指向任何值。但是，ref 最常见的用法是访问 DOM 元素。例如，如果你想以编程方式聚焦一个输入框，这种用法就会派上用场。当你将 ref 传递给 JSX 中的 `ref` 属性时，比如 `<div ref={myRef}>`，React 会将相应的 DOM 元素放入 `myRef.current` 中。当元素从 DOM 中删除时，React 会将 `myRef.current` 更新为 `null`。你可以在 [使用 ref 操作 DOM](/learn/manipulating-the-dom-with-refs) 中阅读更多相关信息。
 
 <Recap>
 
-- ref 是一个应急方案，用于保留不用于渲染的值。 你不会经常需要它们。
+- ref 是一种脱围机制，用于保留不用于渲染的值。 你不会经常需要它们。
 - ref 是一个普通的 JavaScript 对象，具有一个名为 `current` 的属性，你可以对其进行读取或设置。
 - 你可以通过调用 `useRef` Hook 来让 React 给你一个 ref。
 - 与 state 一样，ref 允许你在组件的重新渲染之间保留信息。
@@ -306,7 +306,7 @@ console.log(ref.current); // 5
 
 #### 修复坏掉的聊天输入框 {/*fix-a-broken-chat-input*/}
 
-输入消息并单击“发送”。你会注意到，在看到“已发送！”提示框之前有 3 秒的延迟。在此延迟期间，你可以看到一个“撤消”按钮。点击它。这个“撤消”按钮应该阻止“发送！”消息弹出。它通过调用 [`clearTimeout`](https://developer.mozilla.org/en-US/docs/Web/API/clearTimeout) 来做到这点，这一步骤需要使用在 `handleSend` 时保存的 timeout ID。但是，即使在单击“撤消”后，“已发送！”消息仍然出现。找出它不起作用的原因，然后修复它。
+输入消息并单击“发送”。你会注意到，在看到“已发送！”提示框之前有 3 秒的延迟。在此延迟期间，你可以看到一个“撤消”按钮。点击它。这个“撤消”按钮应该阻止“发送！”消息弹出。它通过调用 [`clearTimeout`](https://developer.mozilla.org/zh-CN/docs/Web/API/clearTimeout) 来做到这点，这一步骤需要使用在 `handleSend` 时保存的 timeout ID。但是，即使在单击“撤消”后，“已发送！”消息仍然出现。找出它不起作用的原因，然后修复它。
 
 <Hint>
 
@@ -467,7 +467,7 @@ export default function Toggle() {
 
 #### 修复防抖 {/*fix-debouncing*/}
 
-在这个例子中，所有按钮点击处理器都是 ["防抖的"](https://redd.one/blog/debounce-vs-throttle)。 要了解这意味着什么，请按下其中一个按钮。注意消息在一秒后显示。如果你在等待消息时按下按钮，计时器将重置。因此如果你多次快速单击同一个按钮，则直到你停止单击 *之后* 1 秒钟，该消息才会显示。防抖可以让你将一些动作推迟到用户“停止动作”之后。
+在这个例子中，所有按钮点击处理器都是 ["防抖的"](https://redd.one/blog/debounce-vs-throttle)。 要了解这意味着什么，请按下其中一个按钮。注意消息在一秒后显示。如果你在等待消息时按下按钮，计时器将重置。因此如果你多次快速单击同一个按钮，则直到你停止单击 **之后** 1 秒钟，该消息才会显示。防抖可以让你将一些动作推迟到用户“停止动作”之后。
 
 这个例子可以正常运行，但并不完全符合预期。按钮不是独立的。要查看问题，请单击其中一个按钮，然后立即单击另一个按钮。你本来期望在延迟之后，你会看到两个按钮的消息。但只有最后一个按钮的消息出现了。第一个按钮的消息丢失了。
 
@@ -482,8 +482,6 @@ export default function Toggle() {
 <Sandpack>
 
 ```js
-import { useState } from 'react';
-
 let timeoutID;
 
 function DebouncedButton({ onClick, children }) {
@@ -530,12 +528,12 @@ button { display: block; margin: 10px; }
 
 <Solution>
 
-像 `timeoutID` 这样的变量是被所有组件共享的。这就是为什么单击第二个按钮会重置第一个按钮未完成的 timeout 的原因。要解决此问题，你可以把 timeout 保存在 ref 中。每个按钮都有自己的 ref，因此它们不会相互冲突。请注意快速单击两个按钮如何显示两个消息。
+像 `timeoutID` 这样的变量是被所有组件共享的。这就是单击第二个按钮会重置第一个按钮未完成的 timeout 的原因。要解决此问题，你可以把 timeout 保存在 ref 中。每个按钮都有自己的 ref，因此它们不会相互冲突。请注意快速单击两个按钮如何显示两个消息。
 
 <Sandpack>
 
 ```js
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 
 function DebouncedButton({ onClick, children }) {
   const timeoutRef = useRef(null);
@@ -586,7 +584,7 @@ button { display: block; margin: 10px; }
 
 在此示例中，当你按下“发送”后，在显示消息之前会有一小段延迟。输入“你好”，按下发送，然后再次快速编辑输入。尽管你进行了编辑，提示框仍会显示“你好”（这是按钮被点击 [那一刻](/learn/state-as-a-snapshot#state-over-time) state 的值）。
 
-通常，这种行为是你在应用程序中想要的。但是，有时可能需要一些异步代码来读取某些 state 的 *最新* 版本。你能想出一种方法，让提示框显示 *当前* 输入文本而不是点击时的内容吗？
+通常，这种行为是你在应用程序中想要的。但是，有时可能需要一些异步代码来读取某些 state 的 **最新** 版本。你能想出一种方法，让提示框显示 **当前** 输入文本而不是点击时的内容吗？
 
 <Sandpack>
 
@@ -621,7 +619,7 @@ export default function Chat() {
 
 <Solution>
 
-state 运作起来 [就像快照](/learn/state-as-a-snapshot)，因此你无法从 timeout 等异步操作中读取最新的 state。但是，你可以在 ref 中保存最新的输入文本。ref 是可变的，因此你可以随时读取 `current` 属性。由于当前文本也用于渲染，在这个例子中，你需要 *同时* 使用一个 state 变量（用于渲染）*和* 一个 ref（在 timeout 时读取它）。你需要手动更新当前的 ref 值。
+state 运作起来 [就像快照](/learn/state-as-a-snapshot)，因此你无法从 timeout 等异步操作中读取最新的 state。但是，你可以在 ref 中保存最新的输入文本。ref 是可变的，因此你可以随时读取 `current` 属性。由于当前文本也用于渲染，在这个例子中，你需要 **同时** 使用一个 state 变量（用于渲染）**和** 一个 ref（在 timeout 时读取它）。你需要手动更新当前的 ref 值。
 
 <Sandpack>
 
