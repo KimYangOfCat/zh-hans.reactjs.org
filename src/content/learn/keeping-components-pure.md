@@ -24,7 +24,7 @@ translators:
 
 在计算机科学中（尤其是函数式编程的世界中），[纯函数](https://wikipedia.org/wiki/Pure_function) 通常具有如下特征：
 
-* **只负责自己的任务**。它不会更改在该函数调用前，就已存在的对象或变量。
+* **只负责自己的任务**。它不会更改在该函数调用前就已存在的对象或变量。
 * **输入相同，则输出相同**。给定相同的输入，纯函数应总是返回相同的结果。
 
 举个你非常熟悉的纯函数示例：数学中的公式。
@@ -53,7 +53,7 @@ React 便围绕着这个概念进行设计。**React 假设你编写的所有组
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 function Recipe({ drinkers }) {
   return (
     <ol>    
@@ -101,7 +101,7 @@ React 的渲染过程必须自始至终是纯粹的。组件应该只 **返回**
 let guest = 0;
 
 function Cup() {
-  // Bad: changing a preexisting variable!
+  // Bad：正在更改预先存在的变量！
   guest = guest + 1;
   return <h2>Tea cup for guest #{guest}</h2>;
 }
@@ -167,7 +167,7 @@ React 提供了 “严格模式”，在严格模式下开发时，它将会调�
 
 ### 局部 mutation：组件的小秘密 {/*local-mutation-your-components-little-secret*/}
 
-上述示例的问题出在渲染过程中，组件改变了 **预先存在的** 变量的值。为了让它听起来更可怕一点，我们将这种现象称为 **突变（mutation）** 。纯函数不会改变函数作用域外的变量、或在函数调用前创建的对象 — 这会使函数变得不纯粹！
+上述示例的问题出在渲染过程中，组件改变了 **预先存在的** 变量的值。为了让它听起来更可怕一点，我们将这种现象称为 **突变（mutation）** 。纯函数不会改变函数作用域外的变量、或在函数调用前创建的对象——这会使函数变得不纯粹！
 
 但是，**你完全可以在渲染时更改你 *刚刚* 创建的变量和对象**。在本示例中，你创建一个 `[]` 数组，将其分配给一个 `cups` 变量，然后 `push` 一打 cup 进去：
 
@@ -220,10 +220,10 @@ export default function TeaGathering() {
 <Recap>
 
 * 一个组件必须是纯粹的，就意味着：
-  * **只负责自己的任务。** 不应更改渲染前存在的任何对象或变量。
+  * **只负责自己的任务。** 它不会更改在该函数调用前就已存在的对象或变量。
   * **输入相同，则输出相同。** 给定相同的输入，组件应该总是返回相同的 JSX。
 * 渲染随时可能发生，因此组件不应依赖于彼此的渲染顺序。
-* 你不应该改变组件用于渲染的任何输入。这包括 props、state 和 context。通过 [“设置” state](/learn/state-a-components-memory)) 来更新界面，而不要改变预先存在的对象。
+* 你不应该改变任何用于组件渲染的输入。这包括 props、state 和 context。通过 [“设置” state](/learn/state-a-components-memory) 来更新界面，而不要改变预先存在的对象。
 * 努力在你返回的 JSX 中表达你的组件逻辑。当你需要“改变事物”时，你通常希望在事件处理程序中进行。作为最后的手段，你可以使用 `useEffect`。
 * 编写纯函数需要一些练习，但它充分释放了 React 范式的能力。
 
@@ -247,7 +247,7 @@ export default function TeaGathering() {
 
 <Sandpack>
 
-```js Clock.js active
+```js src/Clock.js active
 export default function Clock({ time }) {
   let hours = time.getHours();
   if (hours >= 0 && hours <= 6) {
@@ -263,7 +263,7 @@ export default function Clock({ time }) {
 }
 ```
 
-```js App.js hidden
+```js src/App.js hidden
 import { useState, useEffect } from 'react';
 import Clock from './Clock.js';
 
@@ -309,7 +309,7 @@ body > * {
 
 <Sandpack>
 
-```js Clock.js active
+```js src/Clock.js active
 export default function Clock({ time }) {
   let hours = time.getHours();
   let className;
@@ -326,7 +326,7 @@ export default function Clock({ time }) {
 }
 ```
 
-```js App.js hidden
+```js src/App.js hidden
 import { useState, useEffect } from 'react';
 import Clock from './Clock.js';
 
@@ -384,7 +384,7 @@ body > * {
 
 <Sandpack>
 
-```js Profile.js
+```js src/Profile.js
 import Panel from './Panel.js';
 import { getImageUrl } from './utils.js';
 
@@ -417,7 +417,7 @@ function Avatar() {
 }
 ```
 
-```js Panel.js hidden
+```js src/Panel.js hidden
 import { useState } from 'react';
 
 export default function Panel({ children }) {
@@ -433,7 +433,7 @@ export default function Panel({ children }) {
 }
 ```
 
-```js App.js
+```js src/App.js
 import Profile from './Profile.js';
 
 export default function App() {
@@ -452,7 +452,7 @@ export default function App() {
 }
 ```
 
-```js utils.js hidden
+```js src/utils.js hidden
 export function getImageUrl(person, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -485,7 +485,7 @@ h1 { margin: 5px; font-size: 18px; }
 
 <Sandpack>
 
-```js Profile.js active
+```js src/Profile.js active
 import Panel from './Panel.js';
 import { getImageUrl } from './utils.js';
 
@@ -515,7 +515,7 @@ function Avatar({ person }) {
 }
 ```
 
-```js Panel.js hidden
+```js src/Panel.js hidden
 import { useState } from 'react';
 
 export default function Panel({ children }) {
@@ -531,7 +531,7 @@ export default function Panel({ children }) {
 }
 ```
 
-```js App.js
+```js src/App.js
 import Profile from './Profile.js';
 
 export default function App() {
@@ -550,7 +550,7 @@ export default function App() {
 }
 ```
 
-```js utils.js hidden
+```js src/utils.js hidden
 export function getImageUrl(person, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -587,7 +587,7 @@ h1 { margin: 5px; font-size: 18px; }
 
 <Sandpack>
 
-```js StoryTray.js active
+```js src/StoryTray.js active
 export default function StoryTray({ stories }) {
   stories.push({
     id: 'create',
@@ -606,7 +606,7 @@ export default function StoryTray({ stories }) {
 }
 ```
 
-```js App.js hidden
+```js src/App.js hidden
 import { useState, useEffect } from 'react';
 import StoryTray from './StoryTray.js';
 
@@ -619,8 +619,8 @@ export default function App() {
   let [stories, setStories] = useState([...initialStories])
   let time = useTime();
 
-  // HACK: Prevent the memory from growing forever while you read docs.
-  // We're breaking our own rules here.
+  // 临时解决方案：防止在阅读文档时内存无限制增长。
+  // 我们在这里违反了自己的规则。
   if (stories.length > 100) {
     stories.length = 100;
   }
@@ -633,7 +633,7 @@ export default function App() {
         textAlign: 'center',
       }}
     >
-      <h2>It is {time.toLocaleTimeString()} now.</h2>
+      <h2>现在是 {time.toLocaleTimeString()}。</h2>
       <StoryTray stories={stories} />
     </div>
   );
@@ -687,7 +687,7 @@ li {
 
 <Sandpack>
 
-```js StoryTray.js active
+```js src/StoryTray.js active
 export default function StoryTray({ stories }) {
   return (
     <ul>
@@ -702,7 +702,7 @@ export default function StoryTray({ stories }) {
 }
 ```
 
-```js App.js hidden
+```js src/App.js hidden
 import { useState, useEffect } from 'react';
 import StoryTray from './StoryTray.js';
 
@@ -715,8 +715,8 @@ export default function App() {
   let [stories, setStories] = useState([...initialStories])
   let time = useTime();
 
-  // HACK: Prevent the memory from growing forever while you read docs.
-  // We're breaking our own rules here.
+  // 临时解决方案：防止在阅读文档时内存无限制增长。
+  // 我们在这里违反了自己的规则。
   if (stories.length > 100) {
     stories.length = 100;
   }
@@ -729,7 +729,7 @@ export default function App() {
         textAlign: 'center',
       }}
     >
-      <h2>It is {time.toLocaleTimeString()} now.</h2>
+      <h2>现在是 {time.toLocaleTimeString()}。</h2>
       <StoryTray stories={stories} />
     </div>
   );
@@ -771,12 +771,12 @@ li {
 
 <Sandpack>
 
-```js StoryTray.js active
+```js src/StoryTray.js active
 export default function StoryTray({ stories }) {
-  // Copy the array!
+  // 复制数组！
   let storiesToDisplay = stories.slice();
 
-  // Does not affect the original array:
+  // 不影响原始数组：
   storiesToDisplay.push({
     id: 'create',
     label: 'Create Story'
@@ -794,7 +794,7 @@ export default function StoryTray({ stories }) {
 }
 ```
 
-```js App.js hidden
+```js src/App.js hidden
 import { useState, useEffect } from 'react';
 import StoryTray from './StoryTray.js';
 
@@ -807,8 +807,8 @@ export default function App() {
   let [stories, setStories] = useState([...initialStories])
   let time = useTime();
 
-  // HACK: Prevent the memory from growing forever while you read docs.
-  // We're breaking our own rules here.
+  // 临时解决方案：防止在阅读文档时内存无限制增长。
+  // 我们在这里违反了自己的规则。
   if (stories.length > 100) {
     stories.length = 100;
   }
@@ -821,7 +821,7 @@ export default function App() {
         textAlign: 'center',
       }}
     >
-      <h2>It is {time.toLocaleTimeString()} now.</h2>
+      <h2>现在是 {time.toLocaleTimeString()}。</h2>
       <StoryTray stories={stories} />
     </div>
   );

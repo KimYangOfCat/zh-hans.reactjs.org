@@ -33,7 +33,7 @@ translator:
 </ul>
 ```
 
-可以看到，这些列表项之间唯一的区别就是其中的内容/数据。未来你可能会碰到很多类似的情况，在那些场景中，你想基于不同的数据渲染出相似的组件，比如评论列表或者个人资料的图库。在这样的场景下，可以把要用到的数据存入 JavaScript 对象或数组，然后用 [`map()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) 或 [`filter()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) 这样的方法来渲染出一个组件列表。
+可以看到，这些列表项之间唯一的区别就是其中的内容/数据。未来你可能会碰到很多类似的情况，在那些场景中，你想基于不同的数据渲染出相似的组件，比如评论列表或者个人资料的图库。在这样的场景下，可以把要用到的数据存入 JavaScript 对象或数组，然后用 [`map()`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/map) 或 [`filter()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) 这样的方法来渲染出一个组件列表。
 
 这里给出一个由数组生成一系列列表项的简单示例：
 
@@ -103,31 +103,27 @@ Warning: Each child in a list should have a unique "key" prop.
 让我们把 `people` 数组变得更加结构化一点。
 
 ```js
-const people = [
-  {
-    id: 0,
-    name: '凯瑟琳·约翰逊',
-    profession: '数学家',
-  },
-  {
-    id: 1,
-    name: '马里奥·莫利纳',
-    profession: '化学家',
-  },
-  {
-    id: 2,
-    name: '穆罕默德·阿卜杜勒·萨拉姆',
-    profession: '物理学家',
-  },
-  {
-    name: '珀西·莱温·朱利亚',
-    profession: '化学家',
-  },
-  {
-    name: '苏布拉马尼扬·钱德拉塞卡',
-    profession: '天体物理学家',
-  },
-];
+const people = [{
+  id: 0,
+  name: '凯瑟琳·约翰逊',
+  profession: '数学家',
+}, {
+  id: 1,
+  name: '马里奥·莫利纳',
+  profession: '化学家',
+}, {
+  id: 2,
+  name: '穆罕默德·阿卜杜勒·萨拉姆',
+  profession: '物理学家',
+}, {
+  id: 3,
+  name: '珀西·莱温·朱利亚',
+  profession: '化学家',
+}, {
+  id: 4,
+  name: '苏布拉马尼扬·钱德拉塞卡',
+  profession: '天体物理学家',
+}];
 ```
 
 现在，假设你只想在屏幕上显示职业是 `化学家` 的人。那么你可以使用 JavaScript 的 `filter()` 方法来返回满足条件的项。这个方法会让数组的子项经过 “过滤器”（一个返回值为 `true` 或 `false` 的函数）的筛选，最终返回一个只包含满足条件的项的新数组。
@@ -168,7 +164,7 @@ return <ul>{listItems}</ul>;
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { people } from './data.js';
 import { getImageUrl } from './utils.js';
 
@@ -193,7 +189,7 @@ export default function List() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const people = [
   {
     id: 0,
@@ -233,7 +229,7 @@ export const people = [
 ];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -275,7 +271,7 @@ const listItems = chemists.map(person => { // 花括号
 });
 ```
 
-箭头函数 `=> {` 后面的部分被称为 ["块函数体"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#function_body)，块函数体支持多行代码的写法，但要用 `return` 语句才能指定返回值。假如你忘了写 `return`，那这个函数什么都不会返回！
+箭头函数 `=> {` 后面的部分被称为 ["块函数体"](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions#function_body)，块函数体支持多行代码的写法，但要用 `return` 语句才能指定返回值。假如你忘了写 `return`，那这个函数什么都不会返回！
 
 </Pitfall>
 
@@ -289,7 +285,7 @@ Warning: Each child in a list should have a unique "key" prop.
 
 </ConsoleBlock>
 
-这是因为你必须给数组中的每一项都指定一个 `key`————它可以是字符串或数字的形式，只要能唯一标识出各个数组项就行：
+这是因为你必须给数组中的每一项都指定一个 `key`——它可以是字符串或数字的形式，只要能唯一标识出各个数组项就行：
 
 ```js
 <li key={person.id}>...</li>
@@ -307,7 +303,7 @@ Warning: Each child in a list should have a unique "key" prop.
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { people } from './data.js';
 import { getImageUrl } from './utils.js';
 
@@ -329,7 +325,7 @@ export default function List() {
 }
 ```
 
-```js data.js active
+```js src/data.js active
 export const people = [
   {
     id: 0, // 在 JSX 中作为 key 使用
@@ -369,7 +365,7 @@ export const people = [
 ];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -469,7 +465,7 @@ React 里需要 key 和文件夹里的文件需要有文件名的道理是类似
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { people } from './data.js';
 import { getImageUrl } from './utils.js';
 
@@ -496,7 +492,7 @@ export default function List() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const people = [
   {
     id: 0,
@@ -536,7 +532,7 @@ export const people = [
 ];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -566,7 +562,7 @@ img { width: 100px; height: 100px; border-radius: 50%; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { people } from './data.js';
 import { getImageUrl } from './utils.js';
 
@@ -617,7 +613,7 @@ export default function List() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const people = [
   {
     id: 0,
@@ -657,7 +653,7 @@ export const people = [
 ];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -687,7 +683,7 @@ img { width: 100px; height: 100px; border-radius: 50%; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { people } from './data.js';
 import { getImageUrl } from './utils.js';
 
@@ -737,7 +733,7 @@ export default function List() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const people = [
   {
     id: 0,
@@ -777,7 +773,7 @@ export const people = [
 ];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -807,7 +803,7 @@ img { width: 100px; height: 100px; border-radius: 50%; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { people } from './data.js';
 import { getImageUrl } from './utils.js';
 
@@ -861,7 +857,7 @@ export default function List() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const people = [
   {
     id: 0,
@@ -901,7 +897,7 @@ export const people = [
 ];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -939,7 +935,7 @@ img { width: 100px; height: 100px; border-radius: 50%; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { recipes } from './data.js';
 
 export default function RecipeList() {
@@ -951,7 +947,7 @@ export default function RecipeList() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const recipes = [
   {
     id: 'greek-salad',
@@ -979,7 +975,7 @@ export const recipes = [
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { recipes } from './data.js';
 
 export default function RecipeList() {
@@ -1003,7 +999,7 @@ export default function RecipeList() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const recipes = [
   {
     id: 'greek-salad',
@@ -1035,7 +1031,7 @@ export const recipes = [
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { recipes } from './data.js';
 
 export default function RecipeList() {
@@ -1059,7 +1055,7 @@ export default function RecipeList() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const recipes = [
   {
     id: 'greek-salad',
@@ -1117,7 +1113,7 @@ export default function RecipeList() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const recipes = [
   {
     id: 'greek-salad',
@@ -1147,7 +1143,7 @@ export const recipes = [
 
 #### 带有分隔符的列表 {/*list-with-a-separator*/}
 
-下面这个示例展示了葛饰北斋一首著名的俳句，它的每一行都由 `<p>` 标签包裹。你需要在段落之间插入分隔符 `<hr />`，最终的结果大概像这样：
+下面这个示例展示了立花北枝一首著名的俳句，它的每一行都由 `<p>` 标签包裹。你需要在段落之间插入分隔符 `<hr />`，最终的结果大概像这样：
 
 ```js
 <article>
@@ -1206,7 +1202,7 @@ hr {
 
 <Hint>
 
-你可以尝试把原本的 `map` 改造成手动循环，或者试下 fragment 语法。
+你可以尝试把原本的 `map` 改造成手动循环，或者试下 Fragment 语法。
 
 </Hint>
 
@@ -1269,7 +1265,7 @@ hr {
 
 原本使用诗句顺序索引作为 `key` 的方法已经行不通了，因为现在数组里同时包含了分隔符和诗句。但是，你可以用添加后缀的形式给它们赋予独一无二的 key 值，比如 `key={i + '-text'}` 这样。
 
-另一种做法是，生成包含 `<hr />` 和 `<p>...</p>` 的 fragment 集合，但因其简写语法 `<> </>` 不支持指定 key，所以你需要写成 `<Fragment>` 的形式。
+另一种做法是，生成包含 `<hr />` 和 `<p>...</p>` 的 Fragment 集合，但因其简写语法 `<> </>` 不支持指定 key，所以需要写成 `<Fragment>` 的形式。
 
 <Sandpack>
 
@@ -1315,7 +1311,7 @@ hr {
 
 </Sandpack>
 
-记住，采用 fragment 语法（通常写作 `<> </>`）来包裹 JSX 节点可以避免引入额外的 `<div>` 元素！
+记住，使用 Fragment 语法（通常写作 `<> </>`）来包裹 JSX 节点可以避免引入额外的 `<div>` 元素！
 
 </Solution>
 

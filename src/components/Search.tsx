@@ -5,10 +5,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
-import {lazy, useCallback, useEffect} from 'react';
+import {lazy, useEffect} from 'react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
 import {siteConfig} from 'siteConfig';
+import type {ComponentType, PropsWithChildren} from 'react';
+import type {DocSearchModalProps} from '@docsearch/react/modal';
 
 export interface SearchProps {
   appId?: string;
@@ -21,11 +23,7 @@ export interface SearchProps {
 }
 
 function Hit({hit, children}: any) {
-  return (
-    <Link href={hit.url.replace()}>
-      <a>{children}</a>
-    </Link>
-  );
+  return <Link href={hit.url.replace()}>{children}</Link>;
 }
 
 // Copy-pasted from @docsearch/react to avoid importing the whole bundle.
@@ -87,9 +85,10 @@ const options = {
 };
 
 const DocSearchModal: any = lazy(() =>
-  // @ts-ignore
   import('@docsearch/react/modal').then((mod) => ({
-    default: mod.DocSearchModal,
+    default: mod.DocSearchModal as ComponentType<
+      PropsWithChildren<DocSearchModalProps>
+    >,
   }))
 );
 
@@ -98,7 +97,17 @@ export function Search({
   onOpen,
   onClose,
   searchParameters = {
-    hitsPerPage: 5,
+    hitsPerPage: 30,
+    attributesToHighlight: [
+      'hierarchy.lvl0',
+      'hierarchy.lvl1',
+      'hierarchy.lvl2',
+      'hierarchy.lvl3',
+      'hierarchy.lvl4',
+      'hierarchy.lvl5',
+      'hierarchy.lvl6',
+      'content',
+    ],
   },
 }: SearchProps) {
   useDocSearchKeyboardEvents({isOpen, onOpen, onClose});
@@ -114,7 +123,6 @@ export function Search({
         createPortal(
           <DocSearchModal
             {...options}
-            initialScrollY={window.scrollY}
             searchParameters={searchParameters}
             onClose={onClose}
             navigator={{

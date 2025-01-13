@@ -14,35 +14,19 @@ translators:
 
 <YouWillLearn>
 
-* React 如何“处理”组件结构
-* React 何时选择保留或重置 state
-* 如何强制 React 重置组件的 state
-* key 和组件类型如何影响 state 是否被保留
+* React 何时选择保留或重置状态
+* 如何强制 React 重置组件的状态
+* 键和类型如何影响状态是否被保留
 
 </YouWillLearn>
 
-## UI 树 {/*the-ui-tree*/}
+## 状态与渲染树中的位置相关 {/*state-is-tied-to-a-position-in-the-tree*/}
 
-浏览器使用许多树形结构来为 UI 建立模型。[DOM](https://developer.mozilla.org/docs/Web/API/Document_Object_Model/Introduction) 用于表示 HTML 元素，[CSSOM](https://developer.mozilla.org/docs/Web/API/CSS_Object_Model) 则表示 CSS 元素。甚至还有 [Accessibility tree](https://developer.mozilla.org/docs/Glossary/Accessibility_tree)！
+React 会为 UI 中的组件结构构建 [渲染树](learn/understanding-your-ui-as-a-tree#the-render-tree)。
 
-React 也使用树形结构来对你创造的 UI 进行管理和建模。React 根据你的 JSX 生成 **UI 树**。React DOM 根据 UI 树去更新浏览器的 DOM 元素。（React Native 则将这些 UI 树转译成移动平台上特有的元素。）
+当向一个组件添加状态时，那么可能会认为状态“存在”在组件内。但实际上，状态是由 React 保存的。React 通过组件在渲染树中的位置将它保存的每个状态与正确的组件关联起来。
 
-<DiagramGroup>
-
-<Diagram name="preserving_state_dom_tree" height={193} width={864} alt="Diagram with three sections arranged horizontally. In the first section, there are three rectangles stacked vertically, with labels 'Component A', 'Component B', and 'Component C'. Transitioning to the next pane is an arrow with the React logo on top labeled 'React'. The middle section contains a tree of components, with the root labeled 'A' and two children labeled 'B' and 'C'. The next section is again transitioned using an arrow with the React logo on top labeled 'React'. The third and final section is a wireframe of a browser, containing a tree of 8 nodes, which has only a subset highlighted (indicating the subtree from the middle section).">
-
-React 会根据组件创建了一棵 UI 树，React DOM 用它来渲染 DOM
-
-</Diagram>
-
-</DiagramGroup>
-
-## state 与树中的某个位置相关联 {/*state-is-tied-to-a-position-in-the-tree*/}
-
-当你为一个组件添加 state 时，你可能会觉得 state “活”在组件内部。但实际上，state 被保存在 React 内部。根据组件在 UI 树中的位置，React 将它所持有的每个 state 与正确的组件关联起来。
-
-
-下面只定义了一个 `<Counter />` JSX 标签，但将它渲染在了两个不同的位置：
+下面的例子中只有一个 `<Counter />` JSX 标签，但它会在两个不同的位置渲染：
 
 <Sandpack>
 
@@ -194,7 +178,7 @@ Updating state
 </DiagramGroup>
 
 
-只有当你在相同的位置渲染相同的组件时，React 才会一直保留着组件的 state。想要验证这一点，可以将两个计数器的值递增，取消勾选 “渲染第二个计数器” 复选框，然后再次勾选它：
+只有当在树中相同的位置渲染相同的组件时，React 才会一直保留着组件的 state。想要验证这一点，可以将两个计数器的值递增，取消勾选 “渲染第二个计数器” 复选框，然后再次勾选它：
 
 <Sandpack>
 
@@ -496,9 +480,9 @@ label {
 
 </Sandpack>
 
-你可能以为当你勾选复选框的时候 state 会被重置，但它并没有！这是因为 **两个 `<Counter />` 标签被渲染在了相同的位置。** React 不知道你的函数里是如何进行条件判断的，它只会“看到”你返回的树。在这两种情况下，`App` 组件都会返回一个包裹着 `<Counter />` 作为第一个子组件的 `div`。这就是 React 认为它们是 _同一个_ `<Counter />` 的原因。
+你可能以为当你勾选复选框的时候 state 会被重置，但它并没有！这是因为 **两个 `<Counter />` 标签被渲染在了相同的位置。** React 不知道你的函数里是如何进行条件判断的，它只会“看到”你返回的树。
 
-你可以认为它们有相同的“地址”：根组件的第一个子组件的第一个子组件。不管你的逻辑是怎么组织的，这就是 React 在前后两次渲染之间将它们进行匹配的方式。
+在这两种情况下，`App` 组件都会返回一个包裹着 `<Counter />` 作为第一个子组件的 `div`。这就是 React 认为它们是 **同一个** `<Counter />` 的原因。你可以认为它们有相同的“地址”：根组件的第一个子组件的第一个子组件。不管你的逻辑是怎么组织的，这就是 React 在前后两次渲染之间将它们进行匹配的方式。
 
 </Pitfall>
 
@@ -581,7 +565,7 @@ label {
 
 </Sandpack>
 
-示例中，你在相同位置对 _不同_ 的组件类型进行切换。刚开始 `<div>` 的第一个子组件是一个 `Counter`。但是当你切换成 `p` 时，React 将 `Counter` 从 UI 树中移除了并销毁了它的状态。
+示例中，你在相同位置对 **不同** 的组件类型进行切换。刚开始 `<div>` 的第一个子组件是一个 `Counter`。但是当你切换成 `p` 时，React 将 `Counter` 从 UI 树中移除了并销毁了它的状态。
 
 <DiagramGroup>
 
@@ -718,9 +702,9 @@ label {
 
 <Pitfall>
 
-以下是为什么你不应该把组件函数的定义嵌套起来的原因。
+以下是你不应该把组件函数的定义嵌套起来的原因。
 
-示例中， `MyTextField` 组件被定义在 `MyComponent` *内部*：
+示例中， `MyTextField` 组件被定义在 `MyComponent` **内部**：
 
 <Sandpack>
 
@@ -755,7 +739,7 @@ export default function MyComponent() {
 </Sandpack>
 
 
-每次你点击按钮，输入框的 state 都会消失！这是因为每次 `MyComponent` 渲染时都会创建一个 _不同_ 的 `MyTextField` 函数。你在相同位置渲染的是 _不同_ 的组件，所以 React 将其下所有的 state 都重置了。这样会导致 bug 以及性能问题。为了避免这个问题， **永远要将组件定义在最上层并且不要把它们的定义嵌套起来。**
+每次你点击按钮，输入框的 state 都会消失！这是因为每次 `MyComponent` 渲染时都会创建一个 **不同** 的 `MyTextField` 函数。你在相同位置渲染的是 **不同** 的组件，所以 React 将其下所有的 state 都重置了。这样会导致 bug 以及性能问题。为了避免这个问题， **永远要将组件定义在最上层并且不要把它们的定义嵌套起来。**
 
 </Pitfall>
 
@@ -831,7 +815,7 @@ h1 {
 
 </Sandpack>
 
-目前当你切换玩家时，分数会被保留下来。这两个 `Counter` 出现在相同的位置，所以 React 会认为它们是 _同一个_ `Counter`，只是传了不同的 `person` prop。
+目前当你切换玩家时，分数会被保留下来。这两个 `Counter` 出现在相同的位置，所以 React 会认为它们是 **同一个** `Counter`，只是传了不同的 `person` prop。
 
 但是从概念上讲，这个应用中的两个计数器应该是各自独立的。虽然它们在 UI 中的位置相同，但是一个是 Taylor 的计数器，一个是 Sarah 的计数器。
 
@@ -939,7 +923,7 @@ Clicking "next" again
 
 </DiagramGroup>
 
-每次一个 `Counter` 被从 DOM 中移除时，它的 state 就会被销毁。这就是每次你点击按钮时它们就会被重置的原因。
+每当 `Counter` 组件从 DOM 中移除时，它的 state 会被销毁。这就是每次点击按钮它们就会被重置的原因。
 
 这个解决方案在你只有少数几个独立的组件渲染在相同的位置时会很方便。这个例子中只有 2 个组件，所以在 JSX 里将它们分开进行渲染并不麻烦。
 
@@ -947,7 +931,7 @@ Clicking "next" again
 
 还有另一种更通用的重置组件 state 的方法。
 
-你可能在 [渲染列表](/learn/rendering-lists#keeping-list-items-in-order-with-key) 时见到过 `key`。但 key 不只可以用于列表！你可以使用 key 来让 React 区分任何组件。默认情况下，React 使用父组件内部的顺序（“第一个计数器”、“第二个计数器”）来区分组件。但是 key 可以让你告诉 React 这不仅仅是 *第一个* 或者 *第二个* 计数器，而且还是一个特定的计数器——例如，*Taylor 的* 计数器。这样无论它出现在树的任何位置， React 都会知道它是 *Taylor 的* 计数器！
+你可能在 [渲染列表](/learn/rendering-lists#keeping-list-items-in-order-with-key) 时见到过 `key`。但 key 不只可以用于列表！你可以使用 key 来让 React 区分任何组件。默认情况下，React 使用父组件内部的顺序（“第一个计数器”、“第二个计数器”）来区分组件。但是 key 可以让你告诉 React 这不仅仅是 **第一个** 或者 **第二个** 计数器，而且还是一个特定的计数器——例如，**Taylor 的** 计数器。这样无论它出现在树的任何位置， React 都会知道它是 **Taylor 的** 计数器！
 
 在这个例子中，即使两个 `<Counter />` 会出现在 JSX 中的同一个位置，它们也不会共享 state：
 
@@ -1045,7 +1029,7 @@ h1 {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
@@ -1071,7 +1055,7 @@ const contacts = [
 ];
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({
   selectedContact,
   contacts,
@@ -1095,7 +1079,7 @@ export default function ContactList({
 }
 ```
 
-```js Chat.js
+```js src/Chat.js
 import { useState } from 'react';
 
 export default function Chat({ contact }) {
@@ -1150,7 +1134,7 @@ textarea {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 import Chat from './Chat.js';
 import ContactList from './ContactList.js';
@@ -1176,7 +1160,7 @@ const contacts = [
 ];
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({
   selectedContact,
   contacts,
@@ -1200,7 +1184,7 @@ export default function ContactList({
 }
 ```
 
-```js Chat.js
+```js src/Chat.js
 import { useState } from 'react';
 
 export default function Chat({ contact }) {
@@ -1247,11 +1231,11 @@ textarea {
 
 在真正的聊天应用中，你可能会想在用户再次选择前一个收件人时恢复输入 state。对于一个不可见的组件，有几种方法可以让它的 state “活下去”：
 
-- 与其只渲染现在这一个聊天，你可以把 _所有_ 聊天都渲染出来，但用 CSS 把其他聊天隐藏起来。这些聊天就不会从树中被移除了，所以它们的内部 state 会被保留下来。这种解决方法对于简单 UI 非常有效。但如果要隐藏的树形结构很大且包含了大量的 DOM 节点，那么性能就会变得很差。
+- 与其只渲染现在这一个聊天，你可以把 **所有** 聊天都渲染出来，但用 CSS 把其他聊天隐藏起来。这些聊天就不会从树中被移除了，所以它们的内部 state 会被保留下来。这种解决方法对于简单 UI 非常有效。但如果要隐藏的树形结构很大且包含了大量的 DOM 节点，那么性能就会变得很差。
 - 你可以进行 [状态提升](/learn/sharing-state-between-components) 并在父组件中保存每个收件人的草稿消息。这样即使子组件被移除了也无所谓，因为保留重要信息的是父组件。这是最常见的解决方法。
-- 除了 React 的 state，你也可以使用其他数据源。例如，也许你希望即使用户不小心关闭页面也可以保存一份信息草稿。要实现这一点，你可以让 `Chat` 组件通过读取 [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 对其 state 进行初始化，并把草稿保存在那里。
+- 除了 React 的 state，你也可以使用其他数据源。例如，也许你希望即使用户不小心关闭页面也可以保存一份信息草稿。要实现这一点，你可以让 `Chat` 组件通过读取 [`localStorage`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage) 对其 state 进行初始化，并把草稿保存在那里。
 
-无论采取哪种策略，_与 Alice_ 的聊天在概念上都不同于 _与 Bob_ 的聊天，因此根据当前收件人为 `<Chat>` 树指定一个 `key` 是合理的。
+无论采取哪种策略，**与 Alice** 的聊天在概念上都不同于 **与 Bob** 的聊天，因此根据当前收件人为 `<Chat>` 树指定一个 `key` 是合理的。
 
 </DeepDive>
 
@@ -1275,7 +1259,7 @@ textarea {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 
 export default function App() {
@@ -1326,7 +1310,7 @@ textarea { display: block; margin: 10px 0; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 
 export default function App() {
@@ -1372,7 +1356,7 @@ textarea { display: block; margin: 10px 0; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 
 export default function App() {
@@ -1424,7 +1408,7 @@ textarea { display: block; margin: 10px 0; }
 
 这个表单可以让你输入姓氏和名字。它还有一个复选框控制哪个字段放在前面。当你勾选复选框时，“姓氏”字段将出现在“名字”字段之前。
 
-它几乎可以正常使用，但有一个 bug。如果你填写了“名字”输入框并勾选复选框，文本将保留在第一个输入框(也就是现在的“姓氏”)。修复它，使得输入框文本在你调换顺序时 *也* 会跟着移动。
+它几乎可以正常使用，但有一个 bug。如果你填写了“名字”输入框并勾选复选框，文本将保留在第一个输入框(也就是现在的“姓氏”)。修复它，使得输入框文本在你调换顺序时 **也** 会跟着移动。
 
 <Hint>
 
@@ -1434,7 +1418,7 @@ textarea { display: block; margin: 10px 0; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 
 export default function App() {
@@ -1496,7 +1480,7 @@ label { display: block; margin: 10px 0; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 
 export default function App() {
@@ -1562,7 +1546,7 @@ label { display: block; margin: 10px 0; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 import ContactList from './ContactList.js';
 import EditContact from './EditContact.js';
@@ -1614,7 +1598,7 @@ const initialContacts = [
 ];
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({
   contacts,
   selectedId,
@@ -1641,7 +1625,7 @@ export default function ContactList({
 }
 ```
 
-```js EditContact.js
+```js src/EditContact.js
 import { useState } from 'react';
 
 export default function EditContact({ initialData, onSave }) {
@@ -1714,7 +1698,7 @@ button {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 import ContactList from './ContactList.js';
 import EditContact from './EditContact.js';
@@ -1767,7 +1751,7 @@ const initialContacts = [
 ];
 ```
 
-```js ContactList.js
+```js src/ContactList.js
 export default function ContactList({
   contacts,
   selectedId,
@@ -1794,7 +1778,7 @@ export default function ContactList({
 }
 ```
 
-```js EditContact.js
+```js src/EditContact.js
 import { useState } from 'react';
 
 export default function EditContact({ initialData, onSave }) {
@@ -2009,13 +1993,13 @@ img { width: 150px; height: 150px; }
 
 #### 修复列表中错位的 state {/*fix-misplaced-state-in-the-list*/}
 
-在这个列表中每个 `Contact` 都有个 state 表示它的“显示邮箱”按钮是否已经按过了。点击 Alice 的“显示邮箱”按钮，然后勾选“以相反的顺序显示”复选框。你会注意到现在展开的是 _Taylor 的_ 邮箱，而 Alice 的邮箱已经被移到底部并被收起了。
+在这个列表中每个 `Contact` 都有个 state 表示它的“显示邮箱”按钮是否已经按过了。点击 Alice 的“显示邮箱”按钮，然后勾选“以相反的顺序显示”复选框。你会注意到现在展开的是 **Taylor 的** 邮箱，而 Alice 的邮箱已经被移到底部并被收起了。
 
 修复它，使得不管选中的顺序如何，`expanded` state 都与各个联系人相关联。
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 import Contact from './Contact.js';
 
@@ -2057,7 +2041,7 @@ const contacts = [
 ];
 ```
 
-```js Contact.js
+```js src/Contact.js
 import { useState } from 'react';
 
 export default function Contact({ contact }) {
@@ -2108,13 +2092,13 @@ button {
   <li key={i}>
 ```
 
-然而你应该让 state 与 _每个特定的联系人_ 相关联。
+然而你应该让 state 与 **每个特定的联系人** 相关联。
 
 使用联系人的 ID 作为 `key` 就会修复这个问题：
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 import Contact from './Contact.js';
 
@@ -2156,7 +2140,7 @@ const contacts = [
 ];
 ```
 
-```js Contact.js
+```js src/Contact.js
 import { useState } from 'react';
 
 export default function Contact({ contact }) {
