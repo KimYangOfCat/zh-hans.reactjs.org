@@ -76,11 +76,11 @@ React 将在 `domNode` 中展示 `<App />` 组件，并对该 DOM 中的内容�
 通过调用 `render` 函数在 <CodeStep step={2}>浏览器 DOM 节点</CodeStep>中展示 <CodeStep step={1}>React 组件</CodeStep>。
 
 ```js [[1, 4, "<App />"], [2, 4, "document.getElementById('root')"]]
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import App from './App.js';
 
 render(<App />, document.getElementById('root'));
-````
+```
 
 ### 渲染根组件 {/*rendering-the-root-component*/}
 
@@ -88,15 +88,15 @@ render(<App />, document.getElementById('root'));
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 import './styles.css';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
 import App from './App.js';
 
 render(<App />, document.getElementById('root'));
 ```
 
-```js App.js
+```js src/App.js
 export default function App() {
   return <h1>你好，世界！</h1>;
 }
@@ -122,7 +122,7 @@ If your page [isn't fully built with React](/learn/add-react-to-an-existing-proj
 </main>
 ```
 
-```js index.js active
+```js src/index.js active
 import './styles.css';
 import { render } from 'react-dom';
 import { Comments, Navigation } from './Components.js';
@@ -138,7 +138,7 @@ render(
 );
 ```
 
-```js Components.js
+```js src/Components.js
 export function Navigation() {
   return (
     <ul>
@@ -188,8 +188,8 @@ nav ul li { display: inline-block; margin-right: 20px; }
 
 <Sandpack>
 
-```js index.js active
-import {render} from 'react-dom';
+```js src/index.js active
+import { render } from 'react-dom';
 import './styles.css';
 import App from './App.js';
 
@@ -203,7 +203,7 @@ setInterval(() => {
 }, 1000);
 ```
 
-```js App.js
+```js src/App.js
 export default function App({counter}) {
   return (
     <>

@@ -7,7 +7,7 @@ translators:
 
 <Intro>
 
-JSX 允许你在 JavaScript 中编写类似 HTML 的标记，从而使渲染的逻辑和内容可以写在一起。有时候，你可能想要在标记中添加一些 JavaScript 逻辑或者引用动态的属性。这种情况下，你可以在 JSX 的大括号内来编写 JavaScript。
+JSX 允许你在 JavaScript 中编写类似 HTML 的标签，从而使渲染的逻辑和内容可以写在一起。有时候，你可能想要在标签中添加一些 JavaScript 逻辑或者引用动态的属性。这种情况下，你可以在 JSX 的大括号内来编写 JavaScript。
 
 </Intro>
 
@@ -82,7 +82,7 @@ JSX 是一种编写 JavaScript 的特殊方式。这为在大括号 `{ }` 中使
 export default function TodoList() {
   const name = 'Gregorio Y. Zara';
   return (
-    <h1>{name}'s To Do List</h1>
+    <h1>{name}的待办事项列表</h1>
   );
 }
 ```
@@ -100,7 +100,7 @@ const today = new Date();
 
 function formatDate(date) {
   return new Intl.DateTimeFormat(
-    'en-US',
+    'zh-CN',
     { weekday: 'long' }
   ).format(date);
 }
@@ -190,16 +190,16 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person.name}'s Todos</h1>
+      <h1>{person.name}'的待办事项</h1>
       <img
         className="avatar"
         src="https://i.imgur.com/7vQD0fPs.jpg"
         alt="Gregorio Y. Zara"
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
@@ -266,16 +266,16 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person}'s Todos</h1>
+      <h1>{person}'的待办事项</h1>
       <img
         className="avatar"
         src="https://i.imgur.com/7vQD0fPs.jpg"
         alt="Gregorio Y. Zara"
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
@@ -314,16 +314,16 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person.name}'s Todos</h1>
+      <h1>{person.name}'的待办事项</h1>
       <img
         className="avatar"
         src="https://i.imgur.com/7vQD0fPs.jpg"
         alt="Gregorio Y. Zara"
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
@@ -358,16 +358,16 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person.name}'s Todos</h1>
+      <h1>{person.name}'的待办事项</h1>
       <img
         className="avatar"
         src="https://i.imgur.com/7vQD0fPs.jpg"
         alt="Gregorio Y. Zara"
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
@@ -401,16 +401,16 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person.name}'s Todos</h1>
+      <h1>{person.name}'的待办事项</h1>
       <img
         className="avatar"
         src={person.imageUrl}
         alt="Gregorio Y. Zara"
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
@@ -429,9 +429,9 @@ body > div > div { padding: 20px; }
 
 #### 在 JSX 大括号内编写表达式 {/*write-an-expression-inside-jsx-curly-braces*/}
 
-在下面的对象中，完整的图片 URL 被分成了四个部分：base URL、`imageId`、`imageSize` 和文件拓展名。
+在下面的对象中，完整的图片 URL 被分成了四个部分：`baseUrl`、`imageId`、`imageSize` 和`文件拓展名`。
 
-我们希望这些属性组合成图片的 URL：base URL（一直是 `'https://i.imgur.com/'`）、`imageId`（`'7vQD0fP'`）、`imageSize`（`'s'`）和文件拓展（总是 `'.jpg'`）。但是，`<img>` 标签 `src` 指明的方式是有问题的。
+我们希望这些属性组合成图片的 URL：`baseUrl`（一直是 `'https://i.imgur.com/'`）、`imageId`（`'7vQD0fP'`）、`imageSize`（`'s'`）和文件拓展（总是 `'.jpg'`）。但是，`<img>` 标签 `src` 指明的方式是有问题的。
 
 你能修复它吗？
 
@@ -453,16 +453,16 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person.name}'s Todos</h1>
+      <h1>{person.name}'的待办事项</h1>
       <img
         className="avatar"
         src="{baseUrl}{person.imageId}{person.imageSize}.jpg"
         alt={person.name}
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
@@ -504,16 +504,16 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person.name}'s Todos</h1>
+      <h1>{person.name}'的待办事项</h1>
       <img
         className="avatar"
         src={baseUrl + person.imageId + person.imageSize + '.jpg'}
         alt={person.name}
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
@@ -532,7 +532,7 @@ body > div > div { padding: 20px; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { getImageUrl } from './utils.js'
 
 const person = {
@@ -548,23 +548,23 @@ const person = {
 export default function TodoList() {
   return (
     <div style={person.theme}>
-      <h1>{person.name}'s Todos</h1>
+      <h1>{person.name}'的待办事项</h1>
       <img
         className="avatar"
         src={getImageUrl(person)}
         alt={person.name}
       />
       <ul>
-        <li>Improve the videophone</li>
-        <li>Prepare aeronautics lectures</li>
-        <li>Work on the alcohol-fuelled engine</li>
+        <li>优化视屏电话</li>
+        <li>准备航空学课程</li>
+        <li>研究乙醇燃料引擎</li>
       </ul>
     </div>
   );
 }
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -583,7 +583,7 @@ body > div > div { padding: 20px; }
 
 </Sandpack>
 
-变量和函数可以帮助你保持标记文本的简洁！
+变量和函数可以帮助你保持标签文本的简洁！
 
 </Solution>
 

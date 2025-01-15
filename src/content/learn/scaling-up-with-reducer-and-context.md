@@ -1,5 +1,5 @@
 ---
-title: 使用 Reducer 和 Context 来拓展你的应用
+title: 使用 Reducer 和 Context 拓展你的应用
 translators: 
   - Ikaite 
   - KnowsCount 
@@ -27,7 +27,7 @@ Reducer 可以整合组件的状态更新逻辑。Context 可以将信息深入�
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
@@ -110,7 +110,7 @@ const initialTasks = [
 ];
 ```
 
-```js AddTask.js
+```js src/AddTask.js
 import { useState } from 'react';
 
 export default function AddTask({ onAddTask }) {
@@ -131,7 +131,7 @@ export default function AddTask({ onAddTask }) {
 }
 ```
 
-```js TaskList.js
+```js src/TaskList.js
 import { useState } from 'react';
 
 export default function TaskList({
@@ -212,7 +212,7 @@ ul, li { margin: 0; padding: 0; }
 
 </Sandpack>
 
-Reducer 有助于保持事件处理程序的简短明了。但随着应用规模越来越庞大，你就可能会遇到别的困难。**目前，`tasks` 状态和 `dispatch` 函数仅在顶级 `TaskApp` 组件中可用**。要让其他组件读取任务列表或更改它，你必须显式 [传递](/learn/passing-props-to-a-component) 当前状态和将其更改为 props 的事件处理程序。
+Reducer 有助于保持事件处理程序的简短明了。但随着应用规模越来越庞大，你就可能会遇到别的困难。**目前，`tasks` 状态和 `dispatch` 函数仅在顶级 `TaskApp` 组件中可用**。要让其他组件读取任务列表或更改它，你必须显式 [传递](/learn/passing-props-to-a-component) 当前状态和事件处理程序，将其作为 props。
 
 例如，`TaskApp` 将 一系列 task 和事件处理程序传递给 `TaskList`：
 
@@ -234,7 +234,7 @@ Reducer 有助于保持事件处理程序的简短明了。但随着应用规模
 />
 ```
 
-在像这样的小示例里这样做没什么问题，但是如果你有成千上百个组件，传递所有状态和函数可能会非常麻烦！
+在像这样的小示例里这样做没什么问题，但是如果你有成百上千个中间组件，传递所有状态和函数可能会非常麻烦！
 
 这就是为什么，比起通过 props 传递它们，你可能想把 `tasks` 状态和 `dispatch` 函数都 [放入 context](/learn/passing-data-deeply-with-context)。**这样，所有的在 `TaskApp` 组件树之下的组件都不必一直往下传 props 而可以直接读取 tasks 和 dispatch 函数**。
 
@@ -261,7 +261,7 @@ const [tasks, dispatch] = useReducer(tasksReducer, initialTasks);
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
@@ -344,14 +344,14 @@ const initialTasks = [
 ];
 ```
 
-```js TasksContext.js active
+```js src/TasksContext.js active
 import { createContext } from 'react';
 
 export const TasksContext = createContext(null);
 export const TasksDispatchContext = createContext(null);
 ```
 
-```js AddTask.js
+```js src/AddTask.js
 import { useState } from 'react';
 
 export default function AddTask({ onAddTask }) {
@@ -372,7 +372,7 @@ export default function AddTask({ onAddTask }) {
 }
 ```
 
-```js TaskList.js
+```js src/TaskList.js
 import { useState } from 'react';
 
 export default function TaskList({
@@ -455,7 +455,7 @@ ul, li { margin: 0; padding: 0; }
 
 在这里，你把 `null` 作为默认值传递给两个 context。实际值是由 `TaskApp` 组件提供的。
 
-### 第二步: 将 state 和 dispatch 函数 放入 context {/*step-2-put-state-and-dispatch-into-context*/}
+### 第二步: 将 state 和 dispatch 函数放入 context {/*step-2-put-state-and-dispatch-into-context*/}
 
 现在，你可以将所有的 context 导入 `TaskApp` 组件。获取 `useReducer()` 返回的 `tasks` 和 `dispatch` 并将它们 [提供](/learn/passing-data-deeply-with-context#step-3-provide-the-context) 给整个组件树：
 
@@ -479,7 +479,7 @@ export default function TaskApp() {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
@@ -565,14 +565,14 @@ const initialTasks = [
 ];
 ```
 
-```js TasksContext.js
+```js src/TasksContext.js
 import { createContext } from 'react';
 
 export const TasksContext = createContext(null);
 export const TasksDispatchContext = createContext(null);
 ```
 
-```js AddTask.js
+```js src/AddTask.js
 import { useState } from 'react';
 
 export default function AddTask({ onAddTask }) {
@@ -593,7 +593,7 @@ export default function AddTask({ onAddTask }) {
 }
 ```
 
-```js TaskList.js
+```js src/TaskList.js
 import { useState } from 'react';
 
 export default function TaskList({
@@ -722,7 +722,7 @@ export default function AddTask() {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useReducer } from 'react';
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
@@ -779,14 +779,14 @@ const initialTasks = [
 ];
 ```
 
-```js TasksContext.js
+```js src/TasksContext.js
 import { createContext } from 'react';
 
 export const TasksContext = createContext(null);
 export const TasksDispatchContext = createContext(null);
 ```
 
-```js AddTask.js
+```js src/AddTask.js
 import { useState, useContext } from 'react';
 import { TasksDispatchContext } from './TasksContext.js';
 
@@ -815,7 +815,7 @@ export default function AddTask() {
 let nextId = 3;
 ```
 
-```js TaskList.js active
+```js src/TaskList.js active
 import { useState, useContext } from 'react';
 import { TasksContext, TasksDispatchContext } from './TasksContext.js';
 
@@ -939,7 +939,7 @@ export function TasksProvider({ children }) {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
 import { TasksProvider } from './TasksContext.js';
@@ -955,7 +955,7 @@ export default function TaskApp() {
 }
 ```
 
-```js TasksContext.js
+```js src/TasksContext.js
 import { createContext, useReducer } from 'react';
 
 export const TasksContext = createContext(null);
@@ -1010,7 +1010,7 @@ const initialTasks = [
 ];
 ```
 
-```js AddTask.js
+```js src/AddTask.js
 import { useState, useContext } from 'react';
 import { TasksDispatchContext } from './TasksContext.js';
 
@@ -1039,7 +1039,7 @@ export default function AddTask() {
 let nextId = 3;
 ```
 
-```js TaskList.js
+```js src/TaskList.js
 import { useState, useContext } from 'react';
 import { TasksContext, TasksDispatchContext } from './TasksContext.js';
 
@@ -1149,7 +1149,7 @@ const dispatch = useTasksDispatch();
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import AddTask from './AddTask.js';
 import TaskList from './TaskList.js';
 import { TasksProvider } from './TasksContext.js';
@@ -1165,7 +1165,7 @@ export default function TaskApp() {
 }
 ```
 
-```js TasksContext.js
+```js src/TasksContext.js
 import { createContext, useContext, useReducer } from 'react';
 
 const TasksContext = createContext(null);
@@ -1229,7 +1229,7 @@ const initialTasks = [
 ];
 ```
 
-```js AddTask.js
+```js src/AddTask.js
 import { useState } from 'react';
 import { useTasksDispatch } from './TasksContext.js';
 
@@ -1258,7 +1258,7 @@ export default function AddTask() {
 let nextId = 3;
 ```
 
-```js TaskList.js active
+```js src/TaskList.js active
 import { useState } from 'react';
 import { useTasks, useTasksDispatch } from './TasksContext.js';
 

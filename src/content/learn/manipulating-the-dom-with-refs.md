@@ -6,7 +6,7 @@ translators:
 
 <Intro>
 
-由于 React 会自动处理更新 [DOM](https://developer.mozilla.org/docs/Web/API/Document_Object_Model/Introduction) 以匹配你的渲染输出，因此你在组件中通常不需要操作 DOM。但是，有时你可能需要访问由 React 管理的 DOM 元素 —— 例如，让一个节点获得焦点、滚动到它或测量它的尺寸和位置。在 React 中没有内置的方法来做这些事情，所以你需要一个指向 DOM 节点的 *ref* 来实现。
+由于 React 会自动处理更新 [DOM](https://developer.mozilla.org/docs/Web/API/Document_Object_Model/Introduction) 以匹配你的渲染输出，因此你在组件中通常不需要操作 DOM。但是，有时你可能需要访问由 React 管理的 DOM 元素 —— 例如，让一个节点获得焦点、滚动到它或测量它的尺寸和位置。在 React 中没有内置的方法来做这些事情，所以你需要一个指向 DOM 节点的 **ref** 来实现。
 
 </Intro>
 
@@ -33,7 +33,7 @@ import { useRef } from 'react';
 const myRef = useRef(null);
 ```
 
-最后，将其作为 `ref` 属性传给 DOM 节点：
+最后，将 ref 作为 `ref` 属性值传递给想要获取的 DOM 节点的 JSX 标签：
 
 ```js
 <div ref={myRef}>
@@ -79,7 +79,7 @@ export default function Form() {
 
 1. 使用 `useRef` Hook 声明 `inputRef`。
 2. 像 `<input ref={inputRef}>` 这样传递它。这告诉 React **将这个 `<input>` 的 DOM 节点放入 `inputRef.current`。**
-3. 在 `handleClick` 函数中，从 `inputRef.current` 读取 input DOM 节点并使用 `inputRef.current.focus()` 调用它的 [`focus()`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus)。
+3. 在 `handleClick` 函数中，从 `inputRef.current` 读取 input DOM 节点并使用 `inputRef.current.focus()` 调用它的 [`focus()`](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLElement/focus)。
 4. 用 `onClick` 将 `handleClick` 事件处理器传递给 `<button>`。
 
 虽然 DOM 操作是 ref 最常见的用例，但 `useRef` Hook 可用于存储 React 之外的其他内容，例如计时器 ID 。与 state 类似，ref 能在渲染之间保留。你甚至可以将 ref 视为设置它们时不会触发重新渲染的 state 变量！你可以在[使用 Ref 引用值](/learn/referencing-values-with-refs)中了解有关 ref 的更多信息。
@@ -126,35 +126,35 @@ export default function CatFriends() {
     <>
       <nav>
         <button onClick={handleScrollToFirstCat}>
-          Tom
+          Neo
         </button>
         <button onClick={handleScrollToSecondCat}>
-          Maru
+          Millie
         </button>
         <button onClick={handleScrollToThirdCat}>
-          Jellylorum
+          Bella
         </button>
       </nav>
       <div>
         <ul>
           <li>
             <img
-              src="https://placekitten.com/g/200/200"
-              alt="Tom"
+              src="https://placecats.com/neo/300/200"
+              alt="Neo"
               ref={firstCatRef}
             />
           </li>
           <li>
             <img
-              src="https://placekitten.com/g/300/200"
-              alt="Maru"
+              src="https://placecats.com/millie/200/200"
+              alt="Millie"
               ref={secondCatRef}
             />
           </li>
           <li>
             <img
-              src="https://placekitten.com/g/250/200"
-              alt="Jellylorum"
+              src="https://placecats.com/bella/199/200"
+              alt="Bella"
               ref={thirdCatRef}
             />
           </li>
@@ -209,29 +209,30 @@ li {
 </ul>
 ```
 
-这是因为 **Hook 只能在组件的顶层被调用。**不能在循环语句、条件语句或 `map()` 函数中调用 `useRef` 。
+这是因为 **Hook 只能在组件的顶层被调用**。不能在循环语句、条件语句或 `map()` 函数中调用 `useRef` 。
 
 一种可能的解决方案是用一个 ref 引用其父元素，然后用 DOM 操作方法如 [`querySelectorAll`](https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelectorAll) 来寻找它的子节点。然而，这种方法很脆弱，如果 DOM 结构发生变化，可能会失效或报错。
 
-另一种解决方案是**将函数传递给 `ref` 属性**。这称为 [`ref` 回调。](/reference/react-dom/components/common#ref-callback) 当需要设置 ref 时，React 将传入 DOM 节点来调用你的 ref 回调，并在需要清除它时传入 `null` 。这使你可以维护自己的数组或 [Map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map)，并通过其索引或某种类型的 ID 访问任何 ref。
+另一种解决方案是**将函数传递给 `ref` 属性**。这称为 [`ref` 回调](/reference/react-dom/components/common#ref-callback)。当需要设置 ref 时，React 将传入 DOM 节点来调用你的 ref 回调，并在需要清除它时传入 `null` 。这使你可以维护自己的数组或 [Map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map)，并通过其索引或某种类型的 ID 访问任何 ref。
 
 此示例展示了如何使用此方法滚动到长列表中的任意节点： 
 
 <Sandpack>
 
 ```js
-import { useRef } from 'react';
+import { useRef, useState } from "react";
 
 export default function CatFriends() {
   const itemsRef = useRef(null);
+  const [catList, setCatList] = useState(setupCatList);
 
-  function scrollToId(itemId) {
+  function scrollToCat(cat) {
     const map = getMap();
-    const node = map.get(itemId);
+    const node = map.get(cat);
     node.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest',
-      inline: 'center'
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
     });
   }
 
@@ -246,34 +247,25 @@ export default function CatFriends() {
   return (
     <>
       <nav>
-        <button onClick={() => scrollToId(0)}>
-          Tom
-        </button>
-        <button onClick={() => scrollToId(5)}>
-          Maru
-        </button>
-        <button onClick={() => scrollToId(9)}>
-          Jellylorum
-        </button>
+        <button onClick={() => scrollToCat(catList[0])}>Neo</button>
+        <button onClick={() => scrollToCat(catList[5])}>Millie</button>
+        <button onClick={() => scrollToCat(catList[9])}>Bella</button>
       </nav>
       <div>
         <ul>
-          {catList.map(cat => (
+          {catList.map((cat) => (
             <li
-              key={cat.id}
+              key={cat}
               ref={(node) => {
                 const map = getMap();
-                if (node) {
-                  map.set(cat.id, node);
-                } else {
-                  map.delete(cat.id);
-                }
+                map.set(cat, node);
+
+                return () => {
+                  map.delete(cat);
+                };
               }}
             >
-              <img
-                src={cat.imageUrl}
-                alt={'Cat #' + cat.id}
-              />
+              <img src={cat} />
             </li>
           ))}
         </ul>
@@ -282,12 +274,13 @@ export default function CatFriends() {
   );
 }
 
-const catList = [];
-for (let i = 0; i < 10; i++) {
-  catList.push({
-    id: i,
-    imageUrl: 'https://placekitten.com/250/200?image=' + i
-  });
+function setupCatList() {
+  const catList = [];
+  for (let i = 0; i < 10; i++) {
+    catList.push("https://loremflickr.com/320/240/cat?lock=" + i);
+  }
+
+  return catList;
 }
 
 ```
@@ -327,34 +320,61 @@ li {
   key={cat.id}
   ref={node => {
     const map = getMap();
-    if (node) {
-      // 添加到 Map
-      map.set(cat.id, node);
-    } else {
-      // 从 Map 删除
-      map.delete(cat.id);
-    }
+    // 添加到 Map 中
+    map.set(cat, node);
+
+    return () => {
+      // 从 Map 中移除
+      map.delete(cat);
+    };
   }}
 >
 ```
 
 这使你可以之后从 Map 读取单个 DOM 节点。
 
+<Note>
+
+启用严格模式后，ref 回调将在开发中运行两次。
+
+阅读更多这将 [如何帮助你在 ref 回调中找到 bug](/reference/react/StrictMode#fixing-bugs-found-by-re-running-ref-callbacks-in-development) 的细节。
+
+</Note>
+
 </DeepDive>
 
 ## 访问另一个组件的 DOM 节点 {/*accessing-another-components-dom-nodes*/}
 
-当你将 ref 放在像 `<input />` 这样输出浏览器元素的内置组件上时，React 会将该 ref 的 `current` 属性设置为相应的 DOM 节点（例如浏览器中实际的 `<input />` ）。
+<Pitfall>
+Ref 是一个脱围机制。手动操作 __其它__ 组件的 DOM 节点可能会让代码变得脆弱。
+</Pitfall>
 
-但是，如果你尝试将 ref 放在 **你自己的** 组件上，例如 `<MyInput />`，默认情况下你会得到 `null`。这个示例演示了这种情况。请注意单击按钮 **并不会** 聚焦输入框：
+你可以 [像其它 prop 一样](/learn/passing-props-to-a-component) 将 ref 从父组件传递给子组件。
+
+```js {3-4,9}
+import { useRef } from 'react';
+
+function MyInput({ ref }) {
+  return <input ref={ref} />;
+}
+
+function MyForm() {
+  const inputRef = useRef(null);
+  return <MyInput ref={inputRef} />
+}
+```
+
+在上面这个例子中，父组件创建了一个名为 `MyForm` 的 ref，并且将它传递给了 `MyInput` 子组件。`MyInput` 将这个 ref 传递给 `<input>`。因为 `<input>` 是一个 [内置组件](/reference/react-dom/components/common)，React 会将 ref 的 `.current` 属性设置为这个 `<input>` DOM 元素。
+
+在 `MyForm` 中创建的 `inputRef` 现在指向 `MyInput` 返回的 `<input>` DOM 元素。在 `MyForm` 中创建的点击处理程序可以访问 `inputRef` 并且调用 `focus()` 来将焦点设置在 `<input>` 上。
 
 <Sandpack>
 
 ```js
 import { useRef } from 'react';
 
-function MyInput(props) {
-  return <input {...props} />;
+function MyInput({ ref }) {
+  return <input ref={ref} />;
 }
 
 export default function MyForm() {
@@ -377,79 +397,18 @@ export default function MyForm() {
 
 </Sandpack>
 
-为了帮助您注意到这个问题，React 还会向控制台打印一条错误消息：
-
-<ConsoleBlock level="error">
-
-Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?
-
-</ConsoleBlock>
-
-发生这种情况是因为默认情况下，React 不允许组件访问其他组件的 DOM 节点。甚至自己的子组件也不行！这是故意的。Refs 是一个应急方案，应该谨慎使用。手动操作 _另一个_ 组件的 DOM 节点会使你的代码更加脆弱。
-
-相反，_想要_ 暴露其 DOM 节点的组件必须**选择**该行为。一个组件可以指定将它的 ref “转发”给一个子组件。下面是 `MyInput` 如何使用 `forwardRef` API：
-
-```js
-const MyInput = forwardRef((props, ref) => {
-  return <input {...props} ref={ref} />;
-});
-```
-
-它是这样工作的:
-
-1. `<MyInput ref={inputRef} />` 告诉 React 将对应的 DOM 节点放入 `inputRef.current` 中。但是，这取决于 `MyInput` 组件是否允许这种行为， 默认情况下是不允许的。
-2. `MyInput` 组件是使用 `forwardRef` 声明的。 **这让从上面接收的 `inputRef` 作为第二个参数 `ref` 传入组件**，第一个参数是 `props` 。
-3. `MyInput` 组件将自己接收到的 `ref` 传递给它内部的 `<input>`。
-
-现在，单击按钮聚焦输入框起作用了：
-
-<Sandpack>
-
-```js
-import { forwardRef, useRef } from 'react';
-
-const MyInput = forwardRef((props, ref) => {
-  return <input {...props} ref={ref} />;
-});
-
-export default function Form() {
-  const inputRef = useRef(null);
-
-  function handleClick() {
-    inputRef.current.focus();
-  }
-
-  return (
-    <>
-      <MyInput ref={inputRef} />
-      <button onClick={handleClick}>
-        聚焦输入框
-      </button>
-    </>
-  );
-}
-```
-
-</Sandpack>
-
-在设计系统中，将低级组件（如按钮、输入框等）的 ref 转发到它们的 DOM 节点是一种常见模式。另一方面，像表单、列表或页面段落这样的高级组件通常不会暴露它们的 DOM 节点，以避免对 DOM 结构的意外依赖。
-
 <DeepDive>
 
 #### 使用命令句柄暴露一部分 API {/*exposing-a-subset-of-the-api-with-an-imperative-handle*/}
 
-在上面的例子中，`MyInput` 暴露了原始的 DOM 元素 input。这让父组件可以对其调用`focus()`。然而，这也让父组件能够做其他事情 —— 例如，改变其 CSS 样式。在一些不常见的情况下，你可能希望限制暴露的功能。你可以用 `useImperativeHandle` 做到这一点：
+在上面的例子中，`MyInput` 暴露了原始的 DOM 元素 input。这让父组件可以对其调用`focus()`。然而，这也让父组件能够做其他事情 —— 例如，改变其 CSS 样式。在一些不常见的情况下，你可能希望限制暴露的功能。你可以用 [`useImperativeHandle`](/reference/react/useImperativeHandle) 来做到这一点：
 
 <Sandpack>
 
 ```js
-import {
-  forwardRef, 
-  useRef, 
-  useImperativeHandle
-} from 'react';
+import { useRef, useImperativeHandle } from "react";
 
-const MyInput = forwardRef((props, ref) => {
+function MyInput({ ref }) {
   const realInputRef = useRef(null);
   useImperativeHandle(ref, () => ({
     // 只暴露 focus，没有别的
@@ -457,8 +416,8 @@ const MyInput = forwardRef((props, ref) => {
       realInputRef.current.focus();
     },
   }));
-  return <input {...props} ref={realInputRef} />;
-});
+  return <input ref={realInputRef} />;
+};
 
 export default function Form() {
   const inputRef = useRef(null);
@@ -470,9 +429,7 @@ export default function Form() {
   return (
     <>
       <MyInput ref={inputRef} />
-      <button onClick={handleClick}>
-        聚焦输入框
-      </button>
+      <button onClick={handleClick}>聚焦输入框</button>
     </>
   );
 }
@@ -480,7 +437,7 @@ export default function Form() {
 
 </Sandpack>
 
-这里，`MyInput` 中的 `realInputRef` 保存了实际的 input DOM 节点。 但是，`useImperativeHandle` 指示 React 将你自己指定的对象作为父组件的 ref 值。 所以 `Form` 组件内的 `inputRef.current` 将只有 `focus` 方法。在这种情况下，ref “句柄”不是 DOM 节点，而是你在 `useImperativeHandle` 调用中创建的自定义对象。
+这里，`MyInput` 中的 `realInputRef` 保存了实际的 input DOM 节点。 但是，[`useImperativeHandle`](/reference/react/useImperativeHandle) 指示 React 将你自己指定的对象作为父组件的 ref 值。 所以 `Form` 组件内的 `inputRef.current` 将只有 `focus` 方法。在这种情况下，ref “句柄”不是 DOM 节点，而是你在 [`useImperativeHandle`](/reference/react/useImperativeHandle) 调用中创建的自定义对象。
 
 </DeepDive>
 
@@ -501,7 +458,7 @@ React 在提交阶段设置 `ref.current`。在更新 DOM 之前，React 将受�
 
 #### 用 flushSync 同步更新 state {/*flushing-state-updates-synchronously-with-flush-sync*/}
 
-思考这样的代码，它添加一个新的待办事项，并将屏幕向下滚动到列表的最后一个子项。请注意，出于某种原因，它总是滚动到最后一个添加*之前* 的待办事项：
+思考这样的代码，它添加一个新的待办事项，并将屏幕向下滚动到列表的最后一个子项。请注意，出于某种原因，它总是滚动到最后一个添加 **之前** 的待办事项：
 
 <Sandpack>
 
@@ -562,7 +519,7 @@ setTodos([ ...todos, newTodo]);
 listRef.current.lastChild.scrollIntoView();
 ```
 
-在 React 中，[state 更新是排队进行的](/learn/queueing-a-series-of-state-updates)。通常，这就是你想要的。但是，在这个示例中会导致问题，因为 `setTodos` 不会立即更新 DOM。因此，当你将列表滚动到最后一个元素时，尚未添加待办事项。这就是为什么滚动总是“落后”一项的原因。
+在 React 中，[state 更新是排队进行的](/learn/queueing-a-series-of-state-updates)。通常，这就是你想要的。但是，在这个示例中会导致问题，因为 `setTodos` 不会立即更新 DOM。因此，当你将列表滚动到最后一个元素时，尚未添加待办事项。这就是滚动总是“落后”一项的原因。
 
 要解决此问题，你可以强制 React 同步更新（“刷新”）DOM。 为此，从 `react-dom` 导入 `flushSync` 并**将 state 更新包裹** 到 `flushSync` 调用中：
 
@@ -592,7 +549,7 @@ export default function TodoList() {
     const newTodo = { id: nextId++, text: text };
     flushSync(() => {
       setText('');
-      setTodos([ ...todos, newTodo]);      
+      setTodos([ ...todos, newTodo]);
     });
     listRef.current.lastChild.scrollIntoView({
       behavior: 'smooth',
@@ -634,7 +591,7 @@ for (let i = 0; i < 20; i++) {
 
 ## 使用 refs 操作 DOM 的最佳实践 {/*best-practices-for-dom-manipulation-with-refs*/}
 
-Refs 是一个应急方案。你应该只在你必须“跳出 React”时使用它们。这方面的常见示例包括管理焦点、滚动位置或调用 React 未暴露的浏览器 API。
+Refs 是一种脱围机制。你应该只在你必须“跳出 React”时使用它们。这方面的常见示例包括管理焦点、滚动位置或调用 React 未暴露的浏览器 API。
 
 如果你坚持聚焦和滚动等非破坏性操作，应该不会遇到任何问题。但是，如果你尝试手动**修改** DOM，则可能会与 React 所做的更改发生冲突。
 
@@ -645,7 +602,7 @@ Refs 是一个应急方案。你应该只在你必须“跳出 React”时使用
 <Sandpack>
 
 ```js
-import {useState, useRef} from 'react';
+import { useState, useRef } from 'react';
 
 export default function Counter() {
   const [show, setShow] = useState(true);
@@ -685,14 +642,14 @@ button {
 
 **避免更改由 React 管理的 DOM 节点。** 对 React 管理的元素进行修改、添加子元素、从中删除子元素会导致不一致的视觉结果，或与上述类似的崩溃。
 
-但是，这并不意味着你完全不能这样做。它需要谨慎。 **你可以安全地修改 React _没有理由_ 更新的部分 DOM。** 例如，如果某些 `<div>` 在 JSX 中始终为空，React 将没有理由去变动其子列表。 因此，在那里手动增删元素是安全的。
+但是，这并不意味着你完全不能这样做。它需要谨慎。 **你可以安全地修改 React 没有理由更新的部分 DOM。** 例如，如果某些 `<div>` 在 JSX 中始终为空，React 将没有理由去变动其子列表。 因此，在那里手动增删元素是安全的。
 
 <Recap>
 
 - Refs 是一个通用概念，但大多数情况下你会使用它们来保存 DOM 元素。
 - 你通过传递 `<div ref={myRef}>` 指示 React 将 DOM 节点放入 `myRef.current`。
 - 通常，你会将 refs 用于非破坏性操作，例如聚焦、滚动或测量 DOM 元素。
-- 默认情况下，组件不暴露其 DOM 节点。 您可以通过使用 `forwardRef` 并将第二个 `ref` 参数传递给特定节点来暴露 DOM 节点。
+- 默认情况下，组件不暴露其 DOM 节点。 你可以通过使用 `forwardRef` 并将第二个 `ref` 参数传递给特定节点来暴露 DOM 节点。
 - 避免更改由 React 管理的 DOM 节点。
 - 如果你确实修改了 React 管理的 DOM 节点，请修改 React 没有理由更新的部分。
 
@@ -741,7 +698,7 @@ button { display: block; margin-bottom: 20px; }
 
 </Sandpack>
 
-对于额外的挑战，即使用户右键单击视频并使用内置浏览器媒体控件播放，也要使“播放”按钮与视频是否正在播放同步。 您可能需要在视频中监听 `onPlay` 和 `onPause` 才能做到这一点。
+对于额外的挑战，即使用户右键单击视频并使用内置浏览器媒体控件播放，也要使“播放”按钮与视频是否正在播放同步。 你可能需要在视频中监听 `onPlay` 和 `onPause` 才能做到这一点。
 
 <Solution>
 
@@ -794,7 +751,7 @@ button { display: block; margin-bottom: 20px; }
 
 </Sandpack>
 
-为了处理内置浏览器控件，您可以将 `onPlay` 和 `onPause` 处理程序添加到 `<video>` 元素，并调用它们的 `setIsPlaying`。 这样，如果用户使用浏览器控件播放视频，状态将相应调整。
+为了处理内置浏览器控件，你可以将 `onPlay` 和 `onPause` 处理程序添加到 `<video>` 元素，并调用它们的 `setIsPlaying`。 这样，如果用户使用浏览器控件播放视频，状态将相应调整。
 
 </Solution>
 
@@ -876,7 +833,7 @@ node.scrollIntoView({
 
 <Hint>
 
-在本练习中，你不需要对每个图像都添加 ref。对当前激活的图像或图像列表本身有一个 ref 就足够了。使用 `flushSync` 确保 DOM 在滚动 *之前* 更新。
+在本练习中，你不需要对每个图像都添加 ref。对当前激活的图像或图像列表本身有一个 ref 就足够了。使用 `flushSync` 确保 DOM 在滚动 **之前** 更新。
 
 </Hint>
 
@@ -925,7 +882,7 @@ const catList = [];
 for (let i = 0; i < 10; i++) {
   catList.push({
     id: i,
-    imageUrl: 'https://placekitten.com/250/200?image=' + i
+    imageUrl: 'https://loremflickr.com/250/200/cat?lock=' + i
   });
 }
 
@@ -1042,7 +999,7 @@ const catList = [];
 for (let i = 0; i < 10; i++) {
   catList.push({
     id: i,
-    imageUrl: 'https://placekitten.com/250/200?image=' + i
+    imageUrl: 'https://loremflickr.com/250/200/cat?lock=' + i
   });
 }
 
@@ -1100,7 +1057,7 @@ img {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import SearchButton from './SearchButton.js';
 import SearchInput from './SearchInput.js';
 
@@ -1116,7 +1073,7 @@ export default function Page() {
 }
 ```
 
-```js SearchButton.js
+```js src/SearchButton.js
 export default function SearchButton() {
   return (
     <button>
@@ -1126,7 +1083,7 @@ export default function SearchButton() {
 }
 ```
 
-```js SearchInput.js
+```js src/SearchInput.js
 export default function SearchInput() {
   return (
     <input
@@ -1148,7 +1105,7 @@ button { display: block; margin-bottom: 10px; }
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useRef } from 'react';
 import SearchButton from './SearchButton.js';
 import SearchInput from './SearchInput.js';
@@ -1168,7 +1125,7 @@ export default function Page() {
 }
 ```
 
-```js SearchButton.js
+```js src/SearchButton.js
 export default function SearchButton({ onClick }) {
   return (
     <button onClick={onClick}>
@@ -1178,7 +1135,7 @@ export default function SearchButton({ onClick }) {
 }
 ```
 
-```js SearchInput.js
+```js src/SearchInput.js
 import { forwardRef } from 'react';
 
 export default forwardRef(

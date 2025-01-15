@@ -13,7 +13,7 @@ translators:
 
 <YouWillLearn>
 
-* 如何使用 [`useState`](/reference/usestate) Hook 添加 state 变量
+* 如何使用 [`useState`](/reference/react/useState) Hook 添加 state 变量
 * `useState` Hook 返回哪一对值
 * 如何添加多个 state 变量
 * 为什么 state 被称作是局部的
@@ -61,7 +61,7 @@ export default function Gallery() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const sculptureList = [{
   name: 'Homenaje a la Neurocirugía',
   artist: 'Marta Colvin Andrade',
@@ -164,7 +164,7 @@ button {
 1. **保留** 渲染之间的数据。
 2. **触发** React 使用新数据渲染组件（重新渲染）。
 
-[`useState`](/reference/usestate) Hook 提供了这两个功能：
+[`useState`](/reference/react/useState) Hook 提供了这两个功能：
 
 1. **State 变量** 用于保存渲染间的数据。
 2. **State setter 函数** 更新变量并触发 React 再次渲染组件。
@@ -192,7 +192,7 @@ const [index, setIndex] = useState(0);
 `index` 是一个 state 变量，`setIndex` 是对应的 setter 函数。
 
 
-> 这里的 `[` 和 `]` 语法称为[数组解构](/learn/a-javascript-refresher#array-destructuring)，它允许你从数组中读取值。 `useState` 返回的数组总是正好有两项。
+> 这里的 `[` 和 `]` 语法称为[数组解构](https://zh.javascript.info/destructuring-assignment)，它允许你从数组中读取值。 `useState` 返回的数组总是正好有两项。
 
 以下展示了它们在 `handleClick()` 中是如何共同起作用的：
 
@@ -242,7 +242,7 @@ export default function Gallery() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const sculptureList = [{
   name: 'Homenaje a la Neurocirugía',
   artist: 'Marta Colvin Andrade',
@@ -351,7 +351,7 @@ State 只是这些特性中的一个，你之后还会遇到其他 Hook。
 
 ### 剖析 `useState` {/*anatomy-of-usestate*/}
 
-当你调用 [`useState`](/reference/usestate) 时，你是在告诉 React 你想让这个组件记住一些东西：
+当你调用 [`useState`](/reference/react/useState) 时，你是在告诉 React 你想让这个组件记住一些东西：
 
 ```js
 const [index, setIndex] = useState(0);
@@ -379,8 +379,8 @@ const [index, setIndex] = useState(0);
 ```
 
 1. **组件进行第一次渲染。** 因为你将 `0` 作为 `index` 的初始值传递给 `useState`，它将返回 `[0, setIndex]`。 React 记住 `0` 是最新的 state 值。
-2. **你更新了 state。**当用户点击按钮时，它会调用 `setIndex(index + 1)`。 `index` 是 `0`，所以它是 `setIndex(1)`。这告诉 React 现在记住 `index` 是 `1` 并触发下一次渲染。
-3. **组件进行第二次渲染。** React 仍然看到 `useState(0)`，但是因为 React *记住* 了你将 `index` 设置为了 `1`，它将返回 `[1, setIndex]`。
+2. **你更新了 state**。当用户点击按钮时，它会调用 `setIndex(index + 1)`。 `index` 是 `0`，所以它是 `setIndex(1)`。这告诉 React 现在记住 `index` 是 `1` 并触发下一次渲染。
+3. **组件进行第二次渲染**。React 仍然看到 `useState(0)`，但是因为 React *记住* 了你将 `index` 设置为了 `1`，它将返回 `[1, setIndex]`。
 4. 以此类推！
 
 ## 赋予一个组件多个 state 变量 {/*giving-a-component-multiple-state-variables*/}
@@ -431,7 +431,7 @@ export default function Gallery() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const sculptureList = [{
   name: 'Homenaje a la Neurocirugía',
   artist: 'Marta Colvin Andrade',
@@ -540,7 +540,7 @@ button {
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 let componentHooks = [];
 let currentHookIndex = 0;
 
@@ -566,8 +566,6 @@ function useState(initialState) {
     updateDOM();
   }
 
-  // Store the pair for future renders
-  // and prepare for the next Hook call.
   // 存储这个 pair 用于将来的渲染
   // 并且为下一次 hook 的调用做准备
   componentHooks[currentHookIndex] = pair;
@@ -736,7 +734,7 @@ button { display: block; margin-bottom: 10px; }
 
 ## State 是隔离且私有的 {/*state-is-isolated-and-private*/}
 
-State 是屏幕上组件实例内部的状态。换句话说，**如果你渲染同一个组件两次，每个副本都会有完全隔离的 state！**改变其中一个不会影响另一个。
+State 是屏幕上组件实例内部的状态。换句话说，**如果你渲染同一个组件两次，每个副本都会有完全隔离的 state**！改变其中一个不会影响另一个。
 
 在这个例子中，之前的 `Gallery` 组件以同样的逻辑被渲染了两次。试着点击每个画廊内的按钮。你会注意到它们的 state 是相互独立的：
 
@@ -756,7 +754,7 @@ export default function Page() {
 
 ```
 
-```js Gallery.js
+```js src/Gallery.js
 import { useState } from 'react';
 import { sculptureList } from './data.js';
 
@@ -798,7 +796,7 @@ export default function Gallery() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const sculptureList = [{
   name: 'Homenaje a la Neurocirugía',
   artist: 'Marta Colvin Andrade',
@@ -969,7 +967,7 @@ export default function Gallery() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const sculptureList = [{
   name: 'Homenaje a la Neurocirugía',
   artist: 'Marta Colvin Andrade',
@@ -1131,7 +1129,7 @@ export default function Gallery() {
 }
 ```
 
-```js data.js hidden
+```js src/data.js hidden
 export const sculptureList = [{
   name: 'Homenaje a la Neurocirugía',
   artist: 'Marta Colvin Andrade',
@@ -1225,7 +1223,7 @@ img { width: 120px; height: 120px; }
 
 </Sandpack>
 
-注意 `hasPrev` 和 `hasNext` 是如何*同时* 作用于返回的 JSX 和事件处理函数中的！这种简便的模式之所以有效，是因为事件处理函数["闭包"](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)了渲染时声明的变量。
+注意 `hasPrev` 和 `hasNext` 是如何*同时* 作用于返回的 JSX 和事件处理函数中的！这种简便的模式之所以有效，是因为事件处理函数["闭包"](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Closures)了渲染时声明的变量。
 
 </Solution>
 
@@ -1416,7 +1414,7 @@ export default function FeedbackForm() {
 请记住，必须在条件语句外并且始终以相同的顺序调用 Hook！
 
 
-你还可以删除不必要的 `else` 分支以减少嵌套。但要保证对 Hook 的所有调用都发生在*第一个 `return` 前，这很重要。
+你还可以删除不必要的 `else` 分支以减少嵌套。但要保证对 Hook 的所有调用都发生在第一个 `return` **前**，这很重要。
 
 <Sandpack>
 
@@ -1462,7 +1460,7 @@ export default function FeedbackForm() {
 当按钮被点击时，这个例子应该询问用户的名字，然后显示一个 alert 欢迎他们。你尝试使用 state 来保存名字，但由于某种原因，它始终显示“Hello, ！”。
 
 
-要修复此代码，请删除不必要的 state 变量。（我们将在稍后讨论[为什么上述代码不起作用](/learn/troubleshooting-state-updates#setting-state-does-not-update-variables)。）
+要修复此代码，请删除不必要的 state 变量。（我们将在稍后讨论[为什么上述代码不起作用](/learn/state-as-a-snapshot)。）
 
 你能解释为什么这个 state 变量是不必要的吗？
 
@@ -1496,8 +1494,6 @@ export default function FeedbackForm() {
 <Sandpack>
 
 ```js
-import { useState } from 'react';
-
 export default function FeedbackForm() {
   function handleClick() {
     const name = prompt('What is your name?');

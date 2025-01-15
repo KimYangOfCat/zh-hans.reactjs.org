@@ -8,14 +8,16 @@ import cn from 'classnames';
 import {ExternalLink} from 'components/ExternalLink';
 import {IconFacebookCircle} from 'components/Icon/IconFacebookCircle';
 import {IconTwitter} from 'components/Icon/IconTwitter';
+import {IconBsky} from 'components/Icon/IconBsky';
 import {IconGitHub} from 'components/Icon/IconGitHub';
+import Script from 'next/script';
 
 export function Footer() {
   const socialLinkClasses = 'hover:text-primary dark:text-primary-dark';
   return (
     <footer className={cn('text-secondary dark:text-secondary-dark')}>
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-x-12 gap-y-8 max-w-7xl mx-auto">
-        <div className="col-span-2 md:col-span-1 justify-items-start mt-3.5 text-left">
+        <div className="col-span-2 md:col-span-1 justify-items-start mt-3.5">
           <ExternalLink
             href="https://opensource.fb.com/"
             aria-label="Meta Open Source">
@@ -280,8 +282,34 @@ export function Footer() {
             </div>
           </ExternalLink>
 
-          <div className="text-xs text-left mt-2 pr-0.5">
-            &copy;{new Date().getFullYear()}
+          <div
+            className="text-xs text-left rtl:text-right mt-2 pe-0.5"
+            dir="ltr">
+            Copyright &copy; Meta Platforms, Inc
+          </div>
+          <div
+            className="uwu-visible text-xs cursor-pointer hover:text-link hover:dark:text-link-dark hover:underline"
+            onClick={() => {
+              // @ts-ignore
+              window.__setUwu(false);
+            }}>
+            no uwu plz
+          </div>
+          <div
+            className="uwu-hidden text-xs cursor-pointer hover:text-link hover:dark:text-link-dark hover:underline"
+            onClick={() => {
+              // @ts-ignore
+              window.__setUwu(true);
+            }}>
+            uwu?
+          </div>
+          <div className="uwu-visible text-xs">
+            Logo by
+            <ExternalLink
+              className="ms-1"
+              href="https://twitter.com/sawaratsuki1004">
+              @sawaratsuki1004
+            </ExternalLink>
           </div>
         </div>
         <div className="flex flex-col">
@@ -293,7 +321,7 @@ export function Footer() {
           <FooterLink href="/learn/describing-the-ui">描述 UI</FooterLink>
           <FooterLink href="/learn/adding-interactivity">添加交互</FooterLink>
           <FooterLink href="/learn/managing-state">状态管理</FooterLink>
-          <FooterLink href="/learn/escape-hatches">应急方案</FooterLink>
+          <FooterLink href="/learn/escape-hatches">脱围机制</FooterLink>
         </div>
         <div className="flex flex-col">
           <FooterLink href="/reference/react" isHeader={true}>
@@ -325,7 +353,7 @@ export function Footer() {
           <FooterLink href="https://opensource.fb.com/legal/terms/">
             条款
           </FooterLink>
-          <div className="flex flex-row mt-8 gap-x-2">
+          <div className="flex flex-row items-center mt-8 gap-x-2">
             <ExternalLink
               aria-label="React on Facebook"
               href="https://www.facebook.com/react"
@@ -339,6 +367,12 @@ export function Footer() {
               <IconTwitter />
             </ExternalLink>
             <ExternalLink
+              aria-label="React on Bluesky"
+              href="https://bsky.app/profile/react.dev"
+              className={socialLinkClasses}>
+              <IconBsky />
+            </ExternalLink>
+            <ExternalLink
               aria-label="React on Github"
               href="https://github.com/facebook/react"
               className={socialLinkClasses}>
@@ -347,6 +381,17 @@ export function Footer() {
           </div>
         </div>
       </div>
+      <Script id="baidu-hm">
+        {`
+          var _hmt = _hmt || [];
+          (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?63a3dfef37295d635cba53c7750c6fca";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+          })();
+        `}
+      </Script>
     </footer>
   );
 }
@@ -382,8 +427,8 @@ function FooterLink({
 
   return (
     <div>
-      <NextLink href={href}>
-        <a className={classes}>{children}</a>
+      <NextLink href={href} className={classes}>
+        {children}
       </NextLink>
     </div>
   );

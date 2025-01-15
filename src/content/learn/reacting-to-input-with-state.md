@@ -22,7 +22,7 @@ React 控制 UI 的方式是声明式的。你不必直接控制 UI 的各个部
 
 ## 声明式 UI 与命令式 UI 的比较 {/*how-declarative-ui-compares-to-imperative*/}
 
-当你设计 UI 交互时，可能会去思考 UI 如何根据用户的操作而响应**变化**。想象一个允许用户提交一个答案的表单：
+当你设计 UI 交互时，可能会去思考 UI 如何根据用户的操作而响应**变化**。想象一个让用户提交答案的表单：
 
 * 当你向表单输入数据时，“提交”按钮会随之变成**可用状态**
 * 当你点击“提交”后，表单和提交按钮都会随之变成**不可用状态**，并且会加载动画会随之**出现**
@@ -33,13 +33,13 @@ React 控制 UI 的方式是声明式的。你不必直接控制 UI 的各个部
 
 <Illustration src="/images/docs/illustrations/i_imperative-ui-programming.png"  alt="看起来很焦急的司机代表 JavaScript，乘客命令司机执行一系列复杂的转弯导航。" />
 
-他并不知道你想去哪，只想跟着命令行动。（并且如果你发出了错误的命令，那么你就会到达错误的地方）正因为你必须从加载动画到按钮地“命令”每个元素，所以这种告诉计算机*如何*去更新 UI 的编程方式被称为*命令式编程*
+他并不知道你想去哪，只想跟着命令行动。（并且如果你发出了错误的命令，那么你就会到达错误的地方）正因为你必须从加载动画到按钮地“命令”每个元素，所以这种告诉计算机**如何**去更新 UI 的编程方式被称为**命令式编程**
 
 在这个命令式 UI 编程的例子中，表单**没有使用** React 生成，而是使用原生的 [DOM](https://developer.mozilla.org/zh-CN/docs/Web/API/Document_Object_Model):
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 async function handleFormSubmit(e) {
   e.preventDefault();
   disable(textarea);
@@ -88,7 +88,7 @@ function submitForm(answer) {
   // Pretend it's hitting the network.
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (answer.toLowerCase() == 'istanbul') {
+      if (answer.toLowerCase() === 'istanbul') {
         resolve();
       } else {
         reject(new Error('Good guess but a wrong answer. Try again!'));
@@ -250,7 +250,7 @@ export default function Form({
 
 <Sandpack>
 
-```js App.js active
+```js src/App.js active
 import Form from './Form.js';
 
 let statuses = [
@@ -275,7 +275,7 @@ export default function App() {
 }
 ```
 
-```js Form.js
+```js src/Form.js
 export default function Form({ status }) {
   if (status === 'success') {
     return <h1>That's right!</h1>
@@ -353,20 +353,20 @@ body { margin: 0; }
 
 </DiagramGroup>
 
-### 步骤 3：通过 `useState` {/*step-3-represent-the-state-in-memory-with-usestate*/} 表示内存中的 state
+### 步骤 3：通过 `useState` 表示内存中的 state {/*step-3-represent-the-state-in-memory-with-usestate*/}
 
 接下来你会需要在内存中通过 [`useState`](/reference/react/useState) 表示组件中的视图状态。诀窍很简单：state 的每个部分都是“处于变化中的”，并且**你需要让“变化的部分”尽可能的少**。更复杂的程序会产生更多 bug！
 
-先从*绝对必须*存在的状态开始。例如，你需要存储输入的 `answer` 以及用于存储最后一个错误的 `error` （如果存在的话）：
+先从**绝对必须**存在的状态开始。例如，你需要存储输入的 `answer` 以及用于存储最后一个错误的 `error` （如果存在的话）：
 
 ```js
 const [answer, setAnswer] = useState('');
 const [error, setError] = useState(null);
 ```
 
-Then, you'll need a state variable representing which one of the visual states that you want to display. There's usually more than a single way to represent that in memory, so you'll need to experiment with it.
+接下来，你需要一个状态变量来代表你想要显示的那个可视状态。通常有多种方式在内存中表示它，因此你需要进行实验。
 
-如果你很难立即想出最好的办法，那就先从添加足够多的 state 开始，*确保*所有可能的视图状态都囊括其中：
+如果你很难立即想出最好的办法，那就先从添加足够多的 state 开始，**确保**所有可能的视图状态都囊括其中：
 
 ```js
 const [isEmpty, setIsEmpty] = useState(true);
@@ -384,9 +384,9 @@ const [isError, setIsError] = useState(false);
 
 这有一些你可以问自己的， 关于 state 变量的问题：
 
-* **这个 state 是否会导致矛盾？**例如，`isTyping` 与 `isSubmitting` 的状态不能同时为 `true`。矛盾的产生通常说明了这个 state 没有足够的约束条件。两个布尔值有四种可能的组合，但是只有三种对应有效的状态。为了将“不可能”的状态移除，你可以将 `'typing'`、`'submitting'` 以及 `'success'` 这三个中的其中一个与 `status` 结合。
-* **相同的信息是否已经在另一个 state 变量中存在？**另一个矛盾：`isEmpty` 和 `isTyping` 不能同时为 `true`。通过使它们成为独立的 state 变量，可能会导致它们不同步并导致 bug。幸运的是，你可以移除 `isEmpty` 转而用 `message.length === 0`。
-* **你是否可以通过另一个 state 变量的相反值得到相同的信息？**`isError` 是多余的，因为你可以检查 `error !== null`。
+* **这个 state 是否会导致矛盾**？例如，`isTyping` 与 `isSubmitting` 的状态不能同时为 `true`。矛盾的产生通常说明了这个 state 没有足够的约束条件。两个布尔值有四种可能的组合，但是只有三种对应有效的状态。为了将“不可能”的状态移除，你可以将他们合并到一个 `'status'` 中，它的值必须是 `'typing'`、`'submitting'` 以及 `'success'` 这三个中的一个。
+* **相同的信息是否已经在另一个 state 变量中存在**？另一个矛盾：`isEmpty` 和 `isTyping` 不能同时为 `true`。通过使它们成为独立的 state 变量，可能会导致它们不同步并导致 bug。幸运的是，你可以移除 `isEmpty` 转而用 `message.length === 0`。
+* **你是否可以通过另一个 state 变量的相反值得到相同的信息**？`isError` 是多余的，因为你可以检查 `error !== null`。
 
 在清理之后，你只剩下 3 个（从原本的 7 个！）*必要*的 state 变量：
 
@@ -402,7 +402,7 @@ const [status, setStatus] = useState('typing'); // 'typing', 'submitting', or 's
 
 #### 通过 reducer 来减少“不可能” state {/*eliminating-impossible-states-with-a-reducer*/}
 
-尽管这三个变量对于表示这个表单的状态来说已经足够好了，仍然是有一些中间状态并不是完全有意义的。例如一个非空的 `error` 当 `status` 的值为 `success` 时没有意义。为了更精确地模块化状态，你可以 [将状态提取到一个 reducer 中](/learn/extracting-state-logic-into-a-reducer)。Reducer 可以让您合并多个状态变量到一个对象中并巩固所有相关的逻辑！
+尽管这三个变量对于表示这个表单的状态来说已经足够好了，仍然是有一些中间状态并不是完全有意义的。例如一个非空的 `error` 当 `status` 的值为 `success` 时没有意义。为了更精确地模块化状态，你可以 [将状态提取到一个 reducer 中](/learn/extracting-state-logic-into-a-reducer)。Reducer 可以让你合并多个状态变量到一个对象中并巩固所有相关的逻辑！
 
 </DeepDive>
 
@@ -510,7 +510,7 @@ function submitForm(answer) {
 
 #### 添加和删除一个 CSS class {/*add-and-remove-a-css-class*/}
 
-尝试实现当点击图片时*删除*外部 `<div>` 的 CSS class `background--active`，并将 `picture--active` 的 CSS class 添加到 `<img>` 上。当再次点击背景图片时将恢复最开始的 CSS class。
+尝试实现当点击图片时**删除**外部 `<div>` 的 CSS class `background--active`，并将 `picture--active` 的 CSS class 添加到 `<img>` 上。当再次点击背景图片时将恢复最开始的 CSS class。
 
 视觉上，你应该期望当点击图片时会移除紫色的背景，并且高亮图片的边框。点击图片外面时高亮背景并且删除图片边框的高亮效果。
 
@@ -550,6 +550,7 @@ body { margin: 0; padding: 0; height: 250px; }
   width: 200px;
   height: 200px;
   border-radius: 10px;
+  border: 5px solid transparent;
 }
 
 .picture--active {
@@ -566,7 +567,7 @@ body { margin: 0; padding: 0; height: 250px; }
 * 当图片处于激活状态时，CSS class 是 `background` 和 `picture picture--active`。
 * 当图片处于非激活状态时，CSS class 是 `background background--active` 和 `picture`。
 
-一个布尔类型的 state 已经足够表示图片是否处于激活状态。最初的工作仅仅是移除或添加 CSS class。然而在 React 中你需要去*描述*什么是你想要看到的而非*操作* UI 元素。因此你需要基于当前 state 去计算这两个 CSS class。同时你需要去 [阻止冒泡行为](/learn/responding-to-events#stopping-propagation)，只有这样点击图片的时候不会触发点击背景的回调。
+一个布尔类型的 state 已经足够表示图片是否处于激活状态。最初的工作仅仅是移除或添加 CSS class。然而在 React 中你需要去**描述**什么是你想要看到的而非**操作** UI 元素。因此你需要基于当前 state 去计算这两个 CSS class。同时你需要去 [阻止冒泡行为](/learn/responding-to-events#stopping-propagation)，只有这样点击图片的时候不会触发点击背景的回调。
 
 通过点击图片然后点击图片外围来确定这个版本可用：
 
@@ -712,7 +713,7 @@ body { margin: 0; padding: 0; height: 250px; }
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 function handleFormSubmit(e) {
   e.preventDefault();
   if (editButton.textContent === 'Edit Profile') {
@@ -807,7 +808,7 @@ label { display: block; margin-bottom: 20px; }
 
 这个表单在两种模式间切换：编辑模式，你可以看到输入框；查看模式，你只能看到结果。按钮的标签会根据你所处的模式在“编辑”和“保存”两者中切换。当你改变输入框的内容时，欢迎信息会最下面实时更新。
 
-你的任务是在下方的沙盒中用 React 再次实现它。为了方便，标记已经转换为 JSX，但是你需要让它像原版那样显示和隐藏输入框。
+你的任务是在下方的沙盒中用 React 再次实现它。为了方便，标签已经转换为 JSX，但是你需要让它像原版那样显示和隐藏输入框。
 
 也要确保它在底下更新文本内容！
 
@@ -844,7 +845,7 @@ label { display: block; margin-bottom: 20px; }
 
 <Solution>
 
-你需要两个 state 变量来保存输入框中的内容：`firstName` 和 `lastName`。同时你还会需要一个 `isEditing` 的 state 变量来保存是否显示输入框的状态。你应该*不*需要 `fullName` 变量，因为全名可以由`firstName` 和 `lastName` 组合而成。
+你需要两个 state 变量来保存输入框中的内容：`firstName` 和 `lastName`。同时你还会需要一个 `isEditing` 的 state 变量来保存是否显示输入框的状态。你应该**不**需要 `fullName` 变量，因为全名可以由`firstName` 和 `lastName` 组合而成。
 
 最终，你应该根据 `isEditing` 的值使用 [条件渲染](/learn/conditional-rendering) 来决定显示还是隐藏输入框。 
 
@@ -914,7 +915,7 @@ label { display: block; margin-bottom: 20px; }
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 function handleFormSubmit(e) {
   e.preventDefault();
   if (editButton.textContent === 'Edit Profile') {
@@ -1013,7 +1014,7 @@ label { display: block; margin-bottom: 20px; }
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 let firstName = 'Jane';
 let lastName = 'Jacobs';
 let isEditing = false;
@@ -1120,7 +1121,7 @@ label { display: block; margin-bottom: 20px; }
 
 <Sandpack>
 
-```js index.js active
+```js src/index.js active
 let firstName = 'Jane';
 let lastName = 'Jacobs';
 let isEditing = false;

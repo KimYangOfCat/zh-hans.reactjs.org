@@ -5,18 +5,19 @@ translators:
  - sooia
  - KnowsCount
  - QC-L
+ - Zhou Chenyang
 ---
 
 <Intro>
 
-欢迎来到 React 文档！本章节将为你介绍，你每天都会使用的 80% 的 React 概念。
+欢迎来到 React 文档！本章节将介绍你每天都会使用的 80% 的 React 概念。
 
 </Intro>
 
 <YouWillLearn>
 
 - 如何创建和嵌套组件
-- 如何添加标记和样式
+- 如何添加标签和样式
 - 如何显示数据
 - 如何渲染条件和列表
 - 如何对事件做出响应并更新界面
@@ -28,30 +29,30 @@ translators:
 
 React 应用程序是由 **组件** 组成的。一个组件是 UI（用户界面）的一部分，它拥有自己的逻辑和外观。组件可以小到一个按钮，也可以大到整个页面。
 
-React 组件是返回标记的 JavaScript 函数：
+React 组件是返回标签的 JavaScript 函数：
 
 ```js
 function MyButton() {
   return (
-    <button>I'm a button</button>
+    <button>我是一个按钮</button>
   );
 }
 ```
 
-至此，你已经声明了 `MyButton`，你可以把它嵌套到另一个组件中：
+至此，你已经声明了 `MyButton`，现在把它嵌套到另一个组件中：
 
 ```js {5}
 export default function MyApp() {
   return (
     <div>
-      <h1>Welcome to my app</h1>
+      <h1>欢迎来到我的应用</h1>
       <MyButton />
     </div>
   );
 }
 ```
 
-你可能已经注意到 `<MyButton />` 是以大写字母开头的。你可以根据此来区分 React 组件。React 组件必须以大写字母开头，而 HTML 标签则必须是小写字母。
+你可能已经注意到 `<MyButton />` 是以大写字母开头的。你可以据此识别 React 组件。React 组件必须以大写字母开头，而 HTML 标签则必须是小写字母。
 
 来看下效果：
 
@@ -61,7 +62,7 @@ export default function MyApp() {
 function MyButton() {
   return (
     <button>
-      I'm a button
+      我是一个按钮
     </button>
   );
 }
@@ -69,7 +70,7 @@ function MyButton() {
 export default function MyApp() {
   return (
     <div>
-      <h1>Welcome to my app</h1>
+      <h1>欢迎来到我的应用</h1>
       <MyButton />
     </div>
   );
@@ -78,11 +79,11 @@ export default function MyApp() {
 
 </Sandpack>
 
-`export default` 关键字指定了文件中的主要组件。如果你对 JavaScript 某些语法不熟悉，可以参考 [MDN](https://developer.mozilla.org/en-US/docs/web/javascript/reference/statements/export) 以及 [javascript.info](https://javascript.info/import-export)，可能会对你有所帮助。
+`export default` 关键字指定了文件中的主要组件。如果你对 JavaScript 某些语法不熟悉，可以参考 [MDN](https://developer.mozilla.org/zh-CN/docs/web/javascript/reference/statements/export) 和 [javascript.info](https://javascript.info/import-export)。
 
-## 使用 JSX 编写标记 {/*writing-markup-with-jsx*/}
+## 使用 JSX 编写标签 {/*writing-markup-with-jsx*/}
 
-上面所使用的标记语法被称为 *JSX*。它是可选的，但大多数 React 项目会使用 JSX，主要是它很方便。所有 [我们推荐的本地开发工具](/learn/installation) 都支持 JSX，开箱即用。
+上面所使用的标签语法被称为 *JSX*。它是可选的，但大多数 React 项目会使用 JSX，主要是它很方便。所有 [我们推荐的本地开发工具](/learn/installation) 都开箱即用地支持 JSX。
 
 JSX 比 HTML 更加严格。你必须闭合标签，如 `<br />`。你的组件也不能返回多个 JSX 标签。你必须将它们包裹到一个共享的父级中，比如 `<div>...</div>` 或使用空的 `<>...</>` 包裹：
 
@@ -90,8 +91,8 @@ JSX 比 HTML 更加严格。你必须闭合标签，如 `<br />`。你的组件�
 function AboutPage() {
   return (
     <>
-      <h1>About</h1>
-      <p>Hello there.<br />How do you do?</p>
+      <h1>关于</h1>
+      <p>你好。<br />最近怎么样？</p>
     </>
   );
 }
@@ -101,7 +102,7 @@ function AboutPage() {
 
 ## 添加样式 {/*adding-styles*/}
 
-在 React 中，你可以使用 `className` 来指定一个 CSS 的 class。它与 HTML 的 [`class`](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/class) 属性的工作方式相同：
+在 React 中，你可以使用 `className` 来指定一个 CSS 的 class。它与 HTML 的 [`class`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/class) 属性的工作方式相同：
 
 ```js
 <img className="avatar" />
@@ -110,17 +111,17 @@ function AboutPage() {
 然后，你可以在一个单独的 CSS 文件中为它编写 CSS 规则：
 
 ```css
-/* In your CSS */
+/* 在你的 CSS 文件中修改 */
 .avatar {
   border-radius: 50%;
 }
 ```
 
-React 并没有规定你如何添加 CSS 文件。最简单的方式，你可以在你的 HTML 中添加一个 [`<link>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link) 标签。如果你使用了构建工具或框架，请阅读其文档，以了解如何将 CSS 文件添加到你的项目中。
+React 并没有规定你如何添加 CSS 文件。最简单的方式是使用 HTML 的 [`<link>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link) 标签。如果你使用了构建工具或框架，请阅读其文档来了解如何将 CSS 文件添加到你的项目中。
 
 ## 显示数据 {/*displaying-data*/}
 
-JSX 会让你把标记放到 JavaScript 中。而大括号会让你 "回到" JavaScript 中，这样你就可以从你的代码中嵌入一些变量并展示给用户。例如，这将显示 `user.name`：
+JSX 会让你把标签放到 JavaScript 中。而大括号会让你 "回到" JavaScript 中，这样你就可以从你的代码中嵌入一些变量并展示给用户。例如，这将显示 `user.name`：
 
 ```js {3}
 return (
@@ -186,7 +187,7 @@ export default function Profile() {
 
 ## 条件渲染 {/*conditional-rendering*/}
 
-在 React 中，没有特殊的语法来编写条件。因此，你将使用与编写常规 JavaScript 代码时相同的技术。例如，你可以使用 [`if`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else) 语句根据条件引入 JSX：
+React 没有特殊的语法来编写条件语句，因此你使用的就是普通的 JavaScript 代码。例如使用 [`if`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/if...else) 语句根据条件引入 JSX：
 
 ```js
 let content;
@@ -202,7 +203,7 @@ return (
 );
 ```
 
-如果你喜欢更为紧凑的代码，你可以使用 [条件 `?` 运算符](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)。与 `if` 不同的是，它工作于 JSX 内部：
+如果你喜欢更为紧凑的代码，可以使用 [条件 `?` 运算符](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Conditional_Operator)。与 `if` 不同的是，它工作于 JSX 内部：
 
 ```js
 <div>
@@ -214,7 +215,7 @@ return (
 </div>
 ```
 
-当你不需要 `else` 分支时，你还可以使用 [逻辑 `&&` 语法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_AND#short-circuit_evaluation)：
+当你不需要 `else` 分支时，你也可以使用更简短的 [逻辑 `&&` 语法](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Logical_AND#short-circuit_evaluation)：
 
 ```js
 <div>
@@ -222,13 +223,13 @@ return (
 </div>
 ```
 
-所有这些方法也适用于有条件地指定属性。如果你对 JavaScript 语法不熟悉，你可以从一直使用 `if...else` 开始。
+所有这些方法也适用于有条件地指定属性。如果你对 JavaScript 语法不熟悉，你可以先使用 `if...else`。
 
 ## 渲染列表 {/*rendering-lists*/}
 
-你将依赖 JavaScript 的特性，例如 [`for` 循环](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for) 和 [array 的 `map()` 函数](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) 来渲染组件列表。
+你将依赖 JavaScript 的特性，例如 [`for` 循环](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for) 和 [array 的 `map()` 函数](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/map) 来渲染组件列表。
 
-例如，假设你有一个产品数组：
+假设你有一个产品数组：
 
 ```js
 const products = [
@@ -238,7 +239,7 @@ const products = [
 ];
 ```
 
-在你的组件中，使用 `map()` 函数将一个产品数组，转换为 `<li>` 标签的元素列表:
+在你的组件中，使用 `map()` 函数将这个数组转换为 `<li>` 标签构成的列表:
 
 ```js
 const listItems = products.map(product =>
@@ -252,15 +253,15 @@ return (
 );
 ```
 
-注意， `<li>` 有一个 `key` 属性。对于列表中的每一个元素，你应该传递一个字符串或者数字给 `key`，用于在其兄弟节点中唯一标识该元素。通常，key 应该来自你的数据，比如，数据库中的 ID。如果你在后续插入、删除或重新排序这些项目，React 将依靠你提供的 key 来思考发生了什么。
+注意， `<li>` 有一个 `key` 属性。对于列表中的每一个元素，你都应该传递一个字符串或者数字给 `key`，用于在其兄弟节点中唯一标识该元素。通常 key 来自你的数据，比如数据库中的 ID。如果你在后续插入、删除或重新排序这些项目，React 将依靠你提供的 key 来思考发生了什么。
 
 <Sandpack>
 
 ```js
 const products = [
-  { title: 'Cabbage', isFruit: false, id: 1 },
-  { title: 'Garlic', isFruit: false, id: 2 },
-  { title: 'Apple', isFruit: true, id: 3 },
+  { title: '卷心菜', isFruit: false, id: 1 },
+  { title: '大蒜', isFruit: false, id: 2 },
+  { title: '苹果', isFruit: true, id: 3 },
 ];
 
 export default function ShoppingList() {
@@ -295,17 +296,17 @@ function MyButton() {
 
   return (
     <button onClick={handleClick}>
-      Click me
+      点我
     </button>
   );
 }
 ```
 
-注意，`onClick={handleClick}` 的结尾没有小括号！不要 **调用** 事件处理函数：你只需 **传递给事件** 即可。当用户点击按钮时，React 会调用你的事件处理函数。
+注意，`onClick={handleClick}` 的结尾没有小括号！不要 **调用** 事件处理函数：你只需 **把函数传递给事件** 即可。当用户点击按钮时 React 会调用你传递的事件处理函数。
 
 ## 更新界面 {/*updating-the-screen*/}
 
-通常，你会希望你的组件 "记住" 一些信息并展示出来。例如，也许你想计算一个按钮被点击的次数。要做到这一点，你需要在你的组件中添加 **state**。
+通常你会希望你的组件 "记住" 一些信息并展示出来，比如一个按钮被点击的次数。要做到这一点，你需要在你的组件中添加 **state**。
 
 首先，从 React 引入 [`useState`](/reference/react/useState)：
 
@@ -318,9 +319,10 @@ import { useState } from 'react';
 ```js
 function MyButton() {
   const [count, setCount] = useState(0);
+  // ...
 ```
 
-你将从 `useState` 中获得两样东西：当前的 state（`count`），以及用于更新它的函数（`setCount`）。你可以给它们起任何名字，但按照惯例，需要像这样 `[something, setSomething]` 为它们命名。
+你将从 `useState` 中获得两样东西：当前的 state（`count`），以及用于更新它的函数（`setCount`）。你可以给它们起任何名字，但按照惯例会像 `[something, setSomething]` 这样为它们命名。
 
 第一次显示按钮时，`count` 的值为 `0`，因为你把 `0` 传给了 `useState()`。当你想改变 state 时，调用 `setCount()` 并将新的值传递给它。点击该按钮计数器将递增：
 
@@ -340,7 +342,7 @@ function MyButton() {
 }
 ```
 
-React 将再次调用你的组件函数。这次，`count` 会变成 `1`。接着，变成 `2`。以此类推。
+React 将再次调用你的组件函数。第一次 `count` 变成 `1`。接着点击会变成 `2`。继续点击会逐步递增。
 
 如果你多次渲染同一个组件，每个组件都会拥有自己的 state。你可以尝试点击不同的按钮：
 
@@ -352,7 +354,7 @@ import { useState } from 'react';
 export default function MyApp() {
   return (
     <div>
-      <h1>Counters that update separately</h1>
+      <h1>独立更新的计数器</h1>
       <MyButton />
       <MyButton />
     </div>
@@ -368,7 +370,7 @@ function MyButton() {
 
   return (
     <button onClick={handleClick}>
-      Clicked {count} times
+      点了 {count} 次
     </button>
   );
 }
@@ -447,7 +449,7 @@ export default function MyApp() {
 
   return (
     <div>
-      <h1>Counters that update separately</h1>
+      <h1>独立更新的计数器</h1>
       <MyButton />
       <MyButton />
     </div>
@@ -455,7 +457,7 @@ export default function MyApp() {
 }
 
 function MyButton() {
-  // ... we're moving code from here ...
+  // ... 我们将把代码移动到这里 ...
 }
 
 ```
@@ -472,7 +474,7 @@ export default function MyApp() {
 
   return (
     <div>
-      <h1>Counters that update together</h1>
+      <h1>共同更新的计数器</h1>
       <MyButton count={count} onClick={handleClick} />
       <MyButton count={count} onClick={handleClick} />
     </div>
@@ -480,7 +482,7 @@ export default function MyApp() {
 }
 ```
 
-按这种方式传递下来的信息被称作 **prop**。此时，`MyApp` 组件包含了 `count` state 以及 `handleClick` 事件处理函数，并将它们作为 **prop 传递给** 了每个按钮。
+使用这种方式传递的信息被称作 **prop**。此时 `MyApp` 组件包含了 `count` state 以及 `handleClick` 事件处理函数，并将它们作为 **prop 传递给** 了每个按钮。
 
 最后，改变 `MyButton` 以 **读取** 从父组件传递来的 prop：
 
@@ -488,7 +490,7 @@ export default function MyApp() {
 function MyButton({ count, onClick }) {
   return (
     <button onClick={onClick}>
-      Clicked {count} times
+      点了 {count} 次
     </button>
   );
 }
@@ -510,7 +512,7 @@ export default function MyApp() {
 
   return (
     <div>
-      <h1>Counters that update together</h1>
+      <h1>共同更新的计数器</h1>
       <MyButton count={count} onClick={handleClick} />
       <MyButton count={count} onClick={handleClick} />
     </div>
@@ -520,7 +522,7 @@ export default function MyApp() {
 function MyButton({ count, onClick }) {
   return (
     <button onClick={onClick}>
-      Clicked {count} times
+      点了 {count} 次
     </button>
   );
 }
@@ -539,4 +541,4 @@ button {
 
 至此，你已经了解了如何编写 React 代码的基本知识。
 
-Check out the [Tutorial](/learn/tutorial-tic-tac-toe) to put them into practice and build your first mini-app with React.
+接下来你可以查看 [实战教程](/learn/tutorial-tic-tac-toe) 并把它们付诸实践，用 React 建立第一个迷你应用程序。

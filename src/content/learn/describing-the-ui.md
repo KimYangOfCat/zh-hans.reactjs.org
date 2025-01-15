@@ -1,5 +1,5 @@
 ---
-title: 描述用户界面
+title: 描述 UI
 translators:
   - ChelesteWang
   - QC-L
@@ -17,18 +17,19 @@ React 是一个用于构建用户界面（UI）的 JavaScript 库，用户界面
 
 * [如何创建你的第一个组件](/learn/your-first-component)
 * [在什么时候以及如何创建多文件组件](/learn/importing-and-exporting-components)
-* [如何使用 JSX 为 JavaScript 添加标记](/learn/writing-markup-with-jsx)
+* [如何使用 JSX 为 JavaScript 添加标签](/learn/writing-markup-with-jsx)
 * [如何在 JSX 中使用花括号来从组件中使用 JavaScript 功能](/learn/javascript-in-jsx-with-curly-braces)
 * [如何用 props 配置组件](/learn/passing-props-to-a-component)
 * [如何有条件地渲染组件](/learn/conditional-rendering)
 * [如何在同一时间渲染多个组件](/learn/rendering-lists)
 * [如何通过保持组件的纯粹性来避免令人困惑的错误](/learn/keeping-components-pure)
+* [为什么将 UI 理解为树是有用的](/learn/understanding-your-ui-as-a-tree)
 
 </YouWillLearn>
 
 ## 你的第一个组件 {/*your-first-component*/}
 
-React 应用是由被称为 **组件** 的独立 UI 片段构建而成。React 组件本质上是可以任意添加标记的 JavaScript 函数。组件可以小到一个按钮，也可以大到是整个页面。这是一个 `Gallery` 组件，用于渲染三个 `Profile` 组件：
+React 应用是由被称为 **组件** 的独立 UI 片段构建而成。React 组件本质上是可以任意添加标签的 JavaScript 函数。组件可以小到一个按钮，也可以大到是整个页面。这是一个 `Gallery` 组件，用于渲染三个 `Profile` 组件：
 
 <Sandpack>
 
@@ -66,13 +67,13 @@ img { margin: 0 10px 10px 0; height: 90px; }
 
 </LearnMore>
 
-## 导入与导出组件 {/*importing-and-exporting-components*/}
+## 组件的导入与导出 {/*importing-and-exporting-components*/}
 
 你可以在一个文件中声明许多组件，但文件的体积过大会变得难以浏览。为了解决这个问题，你可以在一个文件中只*导出*一个组件，然后再从另一个文件中*导入*该组件：
 
 <Sandpack>
 
-```js App.js hidden
+```js src/App.js hidden
 import Gallery from './Gallery.js';
 
 export default function App() {
@@ -82,7 +83,7 @@ export default function App() {
 }
 ```
 
-```js Gallery.js active
+```js src/Gallery.js active
 import Profile from './Profile.js';
 
 export default function Gallery() {
@@ -97,7 +98,7 @@ export default function Gallery() {
 }
 ```
 
-```js Profile.js
+```js src/Profile.js
 export default function Profile() {
   return (
     <img
@@ -116,14 +117,14 @@ img { margin: 0 10px 10px 0; }
 
 <LearnMore path="/learn/importing-and-exporting-components">
 
-请参阅 **[导入与导出组件](/learn/importing-and-exporting-components)** 以学习如何切分组件。
+请参阅 **[组件的导入与导出](/learn/importing-and-exporting-components)** 以学习如何切分组件。
 </LearnMore>
 
-## 使用 JSX 编写标记 {/*writing-markup-with-jsx*/}
+## 使用 JSX 书写标签语言 {/*writing-markup-with-jsx*/}
 
-每个 React 组件都是一个 JavaScript 函数，它可能包含一些标记，React 会将其渲染到浏览器中。React 组件使用一种叫做 JSX 的语法扩展来表示该标记。JSX 看起来很像 HTML，但它更为严格，可以显示动态信息。
+每个 React 组件都是一个 JavaScript 函数，它可能包含一些标签，React 会将其渲染到浏览器中。React 组件使用一种叫做 JSX 的语法扩展来表示该标签。JSX 看起来很像 HTML，但它更为严格，可以显示动态信息。
 
-如果我们把现有的 HTML 标记粘贴到 React 组件中，它并不一定能成功运行：
+如果我们把现有的 HTML 标签粘贴到 React 组件中，它并不一定能成功运行：
 
 <Sandpack>
 
@@ -184,13 +185,13 @@ img { height: 90px; }
 
 <LearnMore path="/learn/writing-markup-with-jsx">
 
-请参阅 **[使用 JSX 编写标记](/learn/writing-markup-with-jsx)** 以学习如何编写有效的 JSX。
+请参阅 **[使用 JSX 书写标签语言](/learn/writing-markup-with-jsx)** 以学习如何编写有效的 JSX。
 
 </LearnMore>
 
-## 在 JSX 中使用大括号编写 JavaScript {/*javascript-in-jsx-with-curly-braces*/}
+## 在 JSX 中通过大括号使用 JavaScript {/*javascript-in-jsx-with-curly-braces*/}
 
-JSX 可以让你在 JavaScript 文件中编写类似 HTML 的标记语法，使渲染逻辑和内容展示维护在同一个地方。有时你会想在标记中添加一点 JavaScript 逻辑或引用一个动态属性。在这种情况下，你可以在 JSX 中使用花括号来为 JavaScript "开辟通道"：
+JSX 可以让你在 JavaScript 文件中编写类似 HTML 的标签语法，使渲染逻辑和内容展示维护在同一个地方。有时你会想在标签中添加一点 JavaScript 逻辑或引用一个动态属性。在这种情况下，你可以在 JSX 中使用花括号来为 JavaScript "开辟通道"：
 
 <Sandpack>
 
@@ -232,11 +233,11 @@ body > div > div { padding: 20px; }
 
 <LearnMore path="/learn/javascript-in-jsx-with-curly-braces">
 
-请参阅 **[在 JSX 中使用大括号编写 JavaScript](/learn/javascript-in-jsx-with-curly-braces)** 以学习如何从 JSX 中访问 JavaScript 数据。
+请参阅 **[在 JSX 中通过大括号使用 JavaScript](/learn/javascript-in-jsx-with-curly-braces)** 以学习如何从 JSX 中访问 JavaScript 数据。
 
 </LearnMore>
 
-## 将 `props` 传递给一个组件 {/*passing-props-to-a-component*/}
+## 将 Props 传递给组件 {/*passing-props-to-a-component*/}
 
 React 组件使用 *props* 来进行组件之间的通讯。每个父组件都可以通过为子组件提供 props 的方式来传递信息。props 可能会让你想起 HTML 属性，但你可以通过它们传递任何 JavaScript 的值，包括对象、数组、函数、甚至是 JSX!
 
@@ -281,7 +282,7 @@ function Card({ children }) {
 
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person, size = 's') {
   return (
     'https://i.imgur.com/' +
@@ -313,7 +314,7 @@ export function getImageUrl(person, size = 's') {
 
 <LearnMore path="/learn/passing-props-to-a-component">
 
-请参阅 **[向组件传递 props](/learn/passing-props-to-a-component)** 以了解如何传递并读取 props。
+请参阅 **[将 Props 传递给组件](/learn/passing-props-to-a-component)** 以了解如何传递并读取 props。
 
 </LearnMore>
 
@@ -321,7 +322,7 @@ export function getImageUrl(person, size = 's') {
 
 你的组件经常需要根据不同的条件来显示不同的东西。在 React 中，你可以使用 JavaScript 语法，如 `if` 语句、`&&` 和 `? :` 操作符有条件地渲染 JSX。
 
-在这个示例中，JavaScript 的 `&&` 操作符将会条件渲染一个复选标记：
+在这个示例中，JavaScript 的 `&&` 操作符将会条件渲染一个复选标签：
 
 <Sandpack>
 
@@ -329,7 +330,7 @@ export function getImageUrl(person, size = 's') {
 function Item({ name, isPacked }) {
   return (
     <li className="item">
-      {name} {isPacked && '✔'}
+      {name} {isPacked && '✅'}
     </li>
   );
 }
@@ -373,7 +374,7 @@ export default function PackingList() {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { people } from './data.js';
 import { getImageUrl } from './utils.js';
 
@@ -400,7 +401,7 @@ export default function List() {
 }
 ```
 
-```js data.js
+```js src/data.js
 export const people = [{
   id: 0,
   name: 'Creola Katherine Johnson',
@@ -434,7 +435,7 @@ export const people = [{
 }];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(person) {
   return (
     'https://i.imgur.com/' +
@@ -465,11 +466,11 @@ h2 { font-size: 20px; }
 
 </LearnMore>
 
-## 保持组件的纯粹 {/*keeping-components-pure*/}
+## 保持组件纯粹 {/*keeping-components-pure*/}
 
 有些 JavaScript 函数是 **纯粹** 的。纯函数的基本定义：
 
-* **管好自己的事**。 在函数调用前，它不会改变任何已经存在的对象或变量。
+* **只负责自己的任务**。 它不会更改在该函数调用前就已存在的对象或变量。
 * **输入相同，输出也相同**。 在输入相同的情况下，对纯函数来说应总是返回相同的结果。
 
 严格遵循纯函数的定义编写组件，可以让代码库体量增长时，避免一些令人困惑的错误和不可预测的行为。下面是一个非纯函数组件的示例：
@@ -480,7 +481,7 @@ h2 { font-size: 20px; }
 let guest = 0;
 
 function Cup() {
-  // Bad: changing a preexisting variable!
+  // 不推荐的做法：直接修改一个已存在的变量。
   guest = guest + 1;
   return <h2>Tea cup for guest #{guest}</h2>;
 }
@@ -522,12 +523,43 @@ export default function TeaSet() {
 
 <LearnMore path="/learn/keeping-components-pure">
 
-请参阅 **[保持组件的纯粹](/learn/keeping-components-pure)** 以学习如何将组件写成纯粹且可预测的函数。
+请参阅 **[保持组件纯粹](/learn/keeping-components-pure)** 以学习如何将组件写成纯粹且可预测的函数。
 
 </LearnMore>
 
-## 下节预告 {/*whats-next*/}
+## 将 UI 视为树 {/*your-ui-as-a-tree*/}
+
+React 使用树形关系建模以展示组件和模块之间的关系。
+
+React 渲染树是组件之间父子关系的表示。
+
+<Diagram name="generic_render_tree" height={250} width={500} alt="一个树状图，有五个节点，每个节点代表一个组件。树状图的顶部有一个名为 Root Component 的根节点，它有两个向下延伸的箭头，分别标有 renders。两个箭头指向标有 Component A 和 Component C 的节点。Component A 有一条 renders 箭头指向标有 Component B 的节点。Component C 有一条 renders 箭头指向标有 Component D 的节点。">
+
+示例的 React 渲染树
+
+</Diagram>
+
+位于树顶部、靠近根组件的组件被视为顶层组件。没有子组件的组件被称为叶子组件。对组件的这种分类对于理解数据流和渲染性能非常有用。
+
+对 JavaScript 模块之间的关系进行建模是了解应用程序的另一种有用方式。我们将其称为模块依赖树。
+
+<Diagram name="generic_dependency_tree" height={250} width={500} alt="一个树状图，有五个节点。每个节点代表一个 JavaScript 模块。最顶部的节点标有 RootModule.js。它有三条箭头指向节点：ModuleA.js、ModuleB.js 和 ModuleC.js。每个箭头标有 imports。ModuleC.js 节点有一条 imports 箭头指向标有 ModuleD.js的节点。">
+
+示例的模块依赖树
+
+</Diagram>
+
+构建工具经常使用依赖树来捆绑客户端下载和渲染所需的所有 JavaScript 代码。对于 React 应用程序，打包大小会导致用户体验退化。了解模块依赖树有助于调试此类问题。
+
+<LearnMore path="/learn/understanding-your-ui-as-a-tree">
+
+阅读 **[将 UI 视为树](/learn/understanding-your-ui-as-a-tree)** 以了解如何为 React 应用程序创建渲染和模块依赖树，以及它们如何成为有效改善用户体验和性能的心理模型。
+
+</LearnMore>
+
+
+## 接下来应该…… {/*whats-next*/}
 
 请访问 [你的第一个组件](/learn/your-first-component) 这个章节并开始阅读！
 
-如若你已熟悉这些主题，可直接阅读 [增加交互](/learn/adding-interactivity) 一节。
+如若你已熟悉这些主题，可直接阅读 [添加交互](/learn/adding-interactivity) 一节。

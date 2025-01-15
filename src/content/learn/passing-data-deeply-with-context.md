@@ -67,7 +67,7 @@ export default function Page() {
 }
 ```
 
-```js Section.js
+```js src/Section.js
 export default function Section({ children }) {
   return (
     <section className="section">
@@ -77,7 +77,7 @@ export default function Section({ children }) {
 }
 ```
 
-```js Heading.js
+```js src/Heading.js
 export default function Heading({ level, children }) {
   switch (level) {
     case 1:
@@ -141,7 +141,7 @@ export default function Page() {
 }
 ```
 
-```js Section.js
+```js src/Section.js
 export default function Section({ children }) {
   return (
     <section className="section">
@@ -151,7 +151,7 @@ export default function Section({ children }) {
 }
 ```
 
-```js Heading.js
+```js src/Heading.js
 export default function Heading({ level, children }) {
   switch (level) {
     case 1:
@@ -207,9 +207,9 @@ export default function Heading({ level, children }) {
 
 你不能只通过 props 来实现它。这就是 context 大显身手的地方。你可以通过以下三个步骤来实现它：
 
-1. **创建** 一个 context。（你可以将其命名为 `LevelContext`, 因为它表示的是标题级别。)
+1. **创建** 一个 context。（你可以将其命名为 `LevelContext`, 因为它表示的是标题级别。）
 2. 在需要数据的组件内 **使用** 刚刚创建的 context。（`Heading` 将会使用 `LevelContext`。）
-3. 在指定数据的组件中 **提供** 这个 context。 （`Section` 将会提供 `LevelContext`。）
+3. 在指定数据的组件中 **提供** 这个 context。（`Section` 将会提供 `LevelContext`。）
 
 Context 可以让父节点，甚至是很远的父节点都可以为其内部的整个组件树提供数据。
 
@@ -263,7 +263,7 @@ export default function Page() {
 }
 ```
 
-```js Section.js
+```js src/Section.js
 export default function Section({ children }) {
   return (
     <section className="section">
@@ -273,7 +273,7 @@ export default function Section({ children }) {
 }
 ```
 
-```js Heading.js
+```js src/Heading.js
 export default function Heading({ level, children }) {
   switch (level) {
     case 1:
@@ -294,7 +294,7 @@ export default function Heading({ level, children }) {
 }
 ```
 
-```js LevelContext.js active
+```js src/LevelContext.js active
 import { createContext } from 'react';
 
 export const LevelContext = createContext(1);
@@ -311,7 +311,7 @@ export const LevelContext = createContext(1);
 
 </Sandpack>
 
-`createContext` 只需_默认值_这么一个参数。在这里, `1` 表示最大的标题级别，但是你可以传递任何类型的值（甚至可以传入一个对象）。你将在下一个步骤中见识到默认值的意义。
+`createContext` 只需**默认值**这么一个参数。在这里, `1` 表示最大的标题级别，但是你可以传递任何类型的值（甚至可以传入一个对象）。你将在下一个步骤中见识到默认值的意义。
 
 ### Step 2：使用 Context {/*step-2-use-the-context*/}
 
@@ -393,7 +393,7 @@ export default function Page() {
 }
 ```
 
-```js Section.js
+```js src/Section.js
 export default function Section({ children }) {
   return (
     <section className="section">
@@ -403,7 +403,7 @@ export default function Section({ children }) {
 }
 ```
 
-```js Heading.js
+```js src/Heading.js
 import { useContext } from 'react';
 import { LevelContext } from './LevelContext.js';
 
@@ -428,7 +428,7 @@ export default function Heading({ children }) {
 }
 ```
 
-```js LevelContext.js
+```js src/LevelContext.js
 import { createContext } from 'react';
 
 export const LevelContext = createContext(1);
@@ -445,9 +445,9 @@ export const LevelContext = createContext(1);
 
 </Sandpack>
 
-注意！这个示例还不能运行。所有 headings 的尺寸都一样，因为 **即使你正在*使用* context，但是你还没有*提供*它。** React 不知道从哪里获取这个 context！
+注意！这个示例还不能运行。所有 headings 的尺寸都一样，因为 **即使你正在使用 context，但是你还没有提供它。** React 不知道从哪里获取这个 context！
 
-如果你不提供 context，React 会使用你在上一步指定的默认值。在这个例子中，你为 `createContext` 传入了 `1` 这个参数，所以 `useContext(LevelContext)` 会返回 `1`，把所有的标题。我们通过让每个 `Section` 提供它自己的 context 来修复这个问题。
+如果你不提供 context，React 会使用你在上一步指定的默认值。在这个例子中，你为 `createContext` 传入了 `1` 这个参数，所以 `useContext(LevelContext)` 会返回 `1`，把所有的标题都设置为`<h1>`。我们通过让每个 `Section` 提供它自己的 context 来修复这个问题。
 
 ### Step 3：提供 context {/*step-3-provide-the-context*/}
 
@@ -463,7 +463,7 @@ export default function Section({ children }) {
 }
 ```
 
-**把它们用 context provider 包裹起来**  以提供 `LevelContext` 给它们：
+**把它们用 context provider 包裹起来** 以提供 `LevelContext` 给它们：
 
 ```js {1,6,8}
 import { LevelContext } from './LevelContext.js';
@@ -511,7 +511,7 @@ export default function Page() {
 }
 ```
 
-```js Section.js
+```js src/Section.js
 import { LevelContext } from './LevelContext.js';
 
 export default function Section({ level, children }) {
@@ -525,7 +525,7 @@ export default function Section({ level, children }) {
 }
 ```
 
-```js Heading.js
+```js src/Heading.js
 import { useContext } from 'react';
 import { LevelContext } from './LevelContext.js';
 
@@ -550,7 +550,7 @@ export default function Heading({ children }) {
 }
 ```
 
-```js LevelContext.js
+```js src/LevelContext.js
 import { createContext } from 'react';
 
 export const LevelContext = createContext(1);
@@ -591,7 +591,7 @@ export default function Page() {
 由于 context 让你可以从上层的组件读取信息，每个 `Section` 都会从上层的 `Section` 读取 `level`，并自动向下层传递 `level + 1`。
 你可以像下面这样做：
 
-```js Section.js {5,8}
+```js src/Section.js {5,8}
 import { useContext } from 'react';
 import { LevelContext } from './LevelContext.js';
 
@@ -607,7 +607,7 @@ export default function Section({ children }) {
 }
 ```
 
-这样修改之后，你不用将 `level` 参数传给 `<Section>` *或者是* `<Heading>` 了：
+这样修改之后，你不用将 `level` 参数传给 `<Section>` **或者是** `<Heading>` 了：
 
 <Sandpack>
 
@@ -639,7 +639,7 @@ export default function Page() {
 }
 ```
 
-```js Section.js
+```js src/Section.js
 import { useContext } from 'react';
 import { LevelContext } from './LevelContext.js';
 
@@ -655,7 +655,7 @@ export default function Section({ children }) {
 }
 ```
 
-```js Heading.js
+```js src/Heading.js
 import { useContext } from 'react';
 import { LevelContext } from './LevelContext.js';
 
@@ -682,7 +682,7 @@ export default function Heading({ children }) {
 }
 ```
 
-```js LevelContext.js
+```js src/LevelContext.js
 import { createContext } from 'react';
 
 export const LevelContext = createContext(0);
@@ -769,7 +769,7 @@ function Post({ title, body }) {
 }
 ```
 
-```js Section.js
+```js src/Section.js
 import { useContext } from 'react';
 import { LevelContext } from './LevelContext.js';
 
@@ -788,7 +788,7 @@ export default function Section({ children, isFancy }) {
 }
 ```
 
-```js Heading.js
+```js src/Heading.js
 import { useContext } from 'react';
 import { LevelContext } from './LevelContext.js';
 
@@ -815,7 +815,7 @@ export default function Heading({ children }) {
 }
 ```
 
-```js LevelContext.js
+```js src/LevelContext.js
 import { createContext } from 'react';
 
 export const LevelContext = createContext(0);
@@ -838,11 +838,11 @@ export const LevelContext = createContext(0);
 
 你不需要做任何特殊的操作。`Section` 为它内部的树指定一个 context，所以你可以在任何地方插入一个 `<Heading>`，而且它会有正确的尺寸。在上边的沙箱中尝试一下！
 
-**Context 让你可以编写“适应周围环境”的组件，并且根据 _在哪_ （或者说 _在哪个 context 中_）来渲染它们不同的样子。**
+**Context 让你可以编写“适应周围环境”的组件，并且根据 在哪 （或者说 在哪个 context 中）来渲染它们不同的样子。**
 
-Context 的工作方式可能会让你想起 [CSS 属性继承](https://developer.mozilla.org/en-US/docs/Web/CSS/inheritance)。在 CSS 中，你可以为一个 `<div>` 手动指定 `color: blue`，并且其中的任何 DOM 节点，无论多深，都会继承那个颜色，除非中间的其他 DOM 节点用 `color: green` 来覆盖它。类似地，在 React 中，覆盖来自上层的某些 context 的唯一方法是将子组件包裹到一个提供不同值的 context provider 中。
+Context 的工作方式可能会让你想起 [CSS 属性继承](https://developer.mozilla.org/zh-CN/docs/Web/CSS/inheritance)。在 CSS 中，你可以为一个 `<div>` 手动指定 `color: blue`，并且其中的任何 DOM 节点，无论多深，都会继承那个颜色，除非中间的其他 DOM 节点用 `color: green` 来覆盖它。类似地，在 React 中，覆盖来自上层的某些 context 的唯一方法是将子组件包裹到一个提供不同值的 context provider 中。
 
-在 CSS 中，诸如 `color` 和 `background-color` 之类的不同属性不会覆盖彼此。你可以设置所有 `<div>` 的 `color` 为红色，而不会影响 `background-color`。类似地，**不同的 React context 不会覆盖彼此**。你通过 `createContext()` 创建的每个 context 都和其他 context 完全分离，只有使用和提供 *那个特定的* context 的组件才会联系在一起。一个组件可以轻松地使用或者提供许多不同的 context。
+在 CSS 中，诸如 `color` 和 `background-color` 之类的不同属性不会覆盖彼此。你可以设置所有 `<div>` 的 `color` 为红色，而不会影响 `background-color`。类似地，**不同的 React context 不会覆盖彼此**。你通过 `createContext()` 创建的每个 context 都和其他 context 完全分离，只有使用和提供 **那个特定的** context 的组件才会联系在一起。一个组件可以轻松地使用或者提供许多不同的 context。
 
 ## 写在你使用 context 之前 {/*before-you-use-context*/}
 
@@ -883,7 +883,7 @@ Context 不局限于静态值。如果你在下一次渲染时传递不同的值
 
 #### 用 context 替代逐层 props {/*replace-prop-drilling-with-context*/}
 
-在这个示例中，切换复选框状态会修改传入每个 `<PlaceImage>` 的 `imageSize` 参数。复选框的 state 保存在顶层的 `App` 组件中，但是每个 `<PlaceImage>` 都需要注意它。
+在这个示例中，切换复选框状态会修改传入每个 `<PlaceImage>` 的 `imageSize` 参数。复选框的 state 保存在顶层的 `App` 组件中，但是每个 `<PlaceImage>` 都需要知晓它的值。
 
 目前，`App` 将 `imageSize` 传递给 `List`，`List` 再将其传递给每个 `Place`，`Place` 又将其传递给 `PlaceImage`。移除 `imageSize` 参数，并在 `App` 组件中直接将其传递给 `PlaceImage`。
 
@@ -891,7 +891,7 @@ Context 不局限于静态值。如果你在下一次渲染时传递不同的值
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState } from 'react';
 import { places } from './data.js';
 import { getImageUrl } from './utils.js';
@@ -956,11 +956,11 @@ function PlaceImage({ place, imageSize }) {
 }
 ```
 
-```js Context.js
+```js src/Context.js
 
 ```
 
-```js data.js
+```js src/data.js
 export const places = [{
   id: 0,
   name: '南非开普敦的波卡普区',
@@ -999,7 +999,7 @@ export const places = [{
 }];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(place) {
   return (
     'https://i.imgur.com/' +
@@ -1030,7 +1030,7 @@ li {
 
 <Sandpack>
 
-```js App.js
+```js src/App.js
 import { useState, useContext } from 'react';
 import { places } from './data.js';
 import { getImageUrl } from './utils.js';
@@ -1093,13 +1093,13 @@ function PlaceImage({ place }) {
 }
 ```
 
-```js Context.js
+```js src/Context.js
 import { createContext } from 'react';
 
 export const ImageSizeContext = createContext(500);
 ```
 
-```js data.js
+```js src/data.js
 export const places = [{
   id: 0,
   name: '南非开普敦的波卡普区',
@@ -1138,7 +1138,7 @@ export const places = [{
 }];
 ```
 
-```js utils.js
+```js src/utils.js
 export function getImageUrl(place) {
   return (
     'https://i.imgur.com/' +

@@ -1,12 +1,12 @@
-# [React 中文文档](https://zh-hans.reactjs.org/)
+# [React 中文文档](https://zh-hans.react.dev/)
 
-此仓库包含 [React 中文文档](https://zh-hans.reactjs.org/) 的文档及源码，并由官方实时同步。
+此仓库包含 [React 中文文档](https://zh-hans.react.dev/) 的文档及源码，并由官方实时同步。
 
 ## 参与贡献
 
-关于翻译进程的一切问题和相关讨论，请移步至 [这个讨论](https://github.com/reactjs/zh-hans.reactjs.org/discussions/1089)。
+目前，大部分的翻译工作都已经完成。现在主要工作是同步和完善已有翻译。
 
-**翻译前，请仔细阅读 [翻译指南](https://github.com/reactjs/zh-hans.reactjs.org/blob/main/TRANSLATION.md)**。
+**参与贡献前，请仔细阅读 [React 中文文档译文规范](https://github.com/reactjs/zh-hans.react.dev/wiki/React-Translation-Guide)**。
 
 ---
 
@@ -19,7 +19,7 @@ This repo contains the source code and documentation powering [react.dev](https:
 ### Prerequisites
 
 1. Git
-1. Node: any 12.x version starting with v12.0.0 or greater
+1. Node: any version starting with v16.8.0 or greater
 1. Yarn: See [Yarn website for installation instructions](https://yarnpkg.com/lang/en/docs/install/)
 1. A fork of the repo (for any contributions)
 1. A clone of the [react.dev repo](https://github.com/reactjs/react.dev) on your local machine
